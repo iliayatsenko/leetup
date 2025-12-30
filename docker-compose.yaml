@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  leetcode-api:
+    image: alfaarghya/alfa-leetcode-api:2.0.2
+    container_name: leetcode-api
+    ports:
+      - "3000:3000"
+  leetup:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: leetup
+    volumes:
+      - .:/workspace
+    depends_on:
+      - leetcode-api
