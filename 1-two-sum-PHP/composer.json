@@ -1,0 +1,9 @@
+{
+    "name": "leetcode/two-sum",
+    "require": {
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    }
+}

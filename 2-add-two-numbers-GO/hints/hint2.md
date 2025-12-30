@@ -1,0 +1,1 @@
+You'll need to traverse both linked lists simultaneously, adding corresponding digits along with any carry from the previous addition. Create a new linked list to store the result, building it node by node as you go. Remember that when you add two single digits plus a carry, the result can be at most 19 (9 + 9 + 1), so you'll need to handle carries throughout the process.

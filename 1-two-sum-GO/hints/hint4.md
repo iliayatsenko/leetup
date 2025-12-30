@@ -1,0 +1,1 @@
+When using a hash map, iterate through the array once. For each element at index `i`, calculate the complement (target - nums[i]) and check if it already exists in your hash map. If it does, you've found your pair! If not, store the current element with its index in the hash map before moving to the next element. This ensures you don't use the same element twice.

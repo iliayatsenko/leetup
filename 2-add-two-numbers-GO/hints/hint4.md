@@ -1,0 +1,1 @@
+Use a dummy head node to simplify result list construction - this eliminates special cases for creating the first node. Maintain a carry variable (initially 0) and update it after each digit addition using integer division by 10. The new node's value should be the sum modulo 10. Continue the loop while either list has nodes remaining OR while there's still a carry to process.

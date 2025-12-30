@@ -1,0 +1,1 @@
+Use the **sliding window** technique with two pointers (left and right). The window represents your current substring without repeating characters. Expand the window by moving the right pointer forward to include new characters, and shrink it by moving the left pointer when you encounter a duplicate. This way, you only need to traverse the string once.
