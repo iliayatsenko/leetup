@@ -13,7 +13,7 @@ fi
 LANGUAGE=$1
 
 # Validate that language setup file exists
-LANG_SETUP_FILE="setup-langs/$LANGUAGE.sh"
+LANG_SETUP_FILE="setup/$LANGUAGE.sh"
 if [ ! -f "$LANG_SETUP_FILE" ]; then
     echo "Error: Language '$LANGUAGE' is not supported yet"
     echo "Missing language setup file: $LANG_SETUP_FILE"

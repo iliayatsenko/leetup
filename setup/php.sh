@@ -15,11 +15,15 @@ if [ ! -f composer.json ]; then
     cat > composer.json <<EOF
 {
     "name": "leetcode/$PROBLEM_SLUG",
+    "version": "1.0.0",
     "require": {
         "php": "^8.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0"
+    },
+    "config": {
+        "vendor-dir": "../deps/php/vendor"
     }
 }
 EOF
@@ -34,11 +38,6 @@ fi
 # Create tests directory if it doesn't exist
 if [ ! -d tests ]; then
     mkdir tests
-fi
-
-# Add .gitignore file
-if [ ! -f .gitignore ]; then
-    echo "vendor" > .gitignore
 fi
 
 # Create check.sh script to run checks
@@ -77,13 +76,13 @@ if ! command -v composer &> /dev/null; then
 fi
 
 # Install dependencies if vendor directory doesn't exist
-if [ ! -d vendor ]; then
+if [ ! -d ../deps/php/vendor ]; then
     composer install --no-interaction
 fi
 
 # Run PHPUnit tests
 if [ -d tests ]; then
-    ./vendor/bin/phpunit tests
+    ../deps/php/vendor/bin/phpunit tests
 else
     echo "No tests directory found. Please create tests for your solution."
 fi
