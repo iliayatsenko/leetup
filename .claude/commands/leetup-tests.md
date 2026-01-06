@@ -1,1 +1,0 @@
-Generate unit tests for leetcode problem in $ARGUMENTS. Use leetup-test-generator subagent.

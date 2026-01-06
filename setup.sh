@@ -28,6 +28,7 @@ else
     PROBLEM_SLUG=$INPUT
 fi
 
+echo "⚡ Fetching problem $PROBLEM_SLUG..."
 # Fetch problem data
 RESPONSE=$(curl --silent "http://leetcode-api:3000/select/raw?titleSlug=$PROBLEM_SLUG")
 
@@ -50,6 +51,7 @@ LINK="https://leetcode.com/problems/$PROBLEM_SLUG/"
 DIFFICULTY=$(echo "$RESPONSE" | jq -r '.question.difficulty')
 TAGS=$(echo "$RESPONSE" | jq -r '.question.topicTags[].name' | sed 's/^/- /;s/$/\n/')
 
+echo "⚡ Writing files..."
 # Create problem file and write details
 printf "# %d. %s\n\n[%s](%s)\n\n**Difficulty:** %s\n" "$ID" "$TITLE" "$LINK" "$LINK" "$DIFFICULTY" > problem.md
 if [ -n "$TAGS" ]; then
@@ -77,3 +79,9 @@ fi
 
 # Source language-specific setup
 source "../$LANG_SETUP_FILE"
+
+echo "⚡ Generating hints..."
+docker exec opencode opencode run --command leetup-hints "$PROBLEM_DIR"
+
+echo "⚡ Generating tests..."
+docker exec opencode opencode run --command leetup-tests "$PROBLEM_DIR"
