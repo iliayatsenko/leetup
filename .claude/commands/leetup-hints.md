@@ -1,1 +1,0 @@
-Generate hints for leetcode problem in $ARGUMENTS. Use leetup-hint-generator subagent.

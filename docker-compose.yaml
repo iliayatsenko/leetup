@@ -1,11 +1,17 @@
-version: '3.8'
-
 services:
   leetcode-api:
     image: alfaarghya/alfa-leetcode-api:2.0.2
     container_name: leetcode-api
     ports:
       - "3000:3000"
+  opencode:
+    image: ghcr.io/anomalyco/opencode:latest
+    container_name: opencode
+    env_file: .env
+    volumes:
+      - .:/workspace
+    tty: true
+    working_dir: /workspace
   leetup:
     build:
       context: .
@@ -13,5 +19,6 @@ services:
     container_name: leetup
     volumes:
       - .:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock # Map Docker socket in order to run commands in opencode container
     depends_on:
       - leetcode-api
