@@ -1,29 +1,28 @@
 package main
 
 func lengthOfLongestSubstring(s string) int {
-	substrings := make([]string, 0)
-
-	for i, char := range s {
-
 	seen := make(map[rune]bool)
-	maxLengthWithoutDups := 0
-	curLengthWithoutDups := 0
+	maxLengthWithoutDups := 1
+	curLengthWithoutDups := 1
 
-	for _, char := range s {
-		if _, ok := seen[char]; ok {
+OuterLoop:
+	for baseIdx, baseChar := range s {
+		seen[baseChar] = true
+		for _, char := range s[baseIdx+1:] {
+			if _, ok := seen[char]; ok {
+				if curLengthWithoutDups > maxLengthWithoutDups {
+					maxLengthWithoutDups = curLengthWithoutDups
+				}
+				seen = make(map[rune]bool)
+				curLengthWithoutDups = 1
+				continue OuterLoop
+			}
+
+			curLengthWithoutDups++
+			seen[char] = true
 			if curLengthWithoutDups > maxLengthWithoutDups {
 				maxLengthWithoutDups = curLengthWithoutDups
 			}
-			seen = make(map[rune]bool)
-			seen[char] = true
-			curLengthWithoutDups = 1
-			continue
-		}
-
-		curLengthWithoutDups++
-		seen[char] = true
-		if curLengthWithoutDups > maxLengthWithoutDups {
-			maxLengthWithoutDups = curLengthWithoutDups
 		}
 	}
 
