@@ -8,6 +8,8 @@ services:
     image: ghcr.io/anomalyco/opencode:latest
     container_name: opencode
     env_file: .env
+    environment:
+      OPENCODE_CONFIG: /workspace/.opencode/opencode.jsonc
     volumes:
       - .:/workspace
     tty: true

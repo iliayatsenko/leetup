@@ -8,5 +8,5 @@ fi
 
 PROBLEM_DIR=$1
 
-echo "⚡ Reviewing problem $PROBLEM_DIR..."
+echo "⚡ Reviewing solution of problem $PROBLEM_DIR..."
 docker exec opencode opencode run --command leetup-review "$PROBLEM_DIR"
