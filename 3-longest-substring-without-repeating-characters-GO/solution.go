@@ -1,6 +1,10 @@
 package main
 
 func lengthOfLongestSubstring(s string) int {
+	if len(s) == 0 {
+		return 0
+	}
+
 	seen := make(map[rune]bool)
 	maxLengthWithoutDups := 1
 	curLengthWithoutDups := 1
