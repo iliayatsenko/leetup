@@ -13,6 +13,11 @@ RUN echo '#!/bin/bash' > /usr/local/bin/check && \
     echo 'cd /workspace && ./scripts/check.sh "$@"' >> /usr/local/bin/check && \
     chmod +x /usr/local/bin/check
 
+# Create debugging wrapper in container
+RUN echo '#!/bin/bash' > /usr/local/bin/debug && \
+    echo 'cd /workspace && ./scripts/debug.sh "$@"' >> /usr/local/bin/debug && \
+    chmod +x /usr/local/bin/debug
+
 # Create review wrapper in container
 RUN echo '#!/bin/bash' > /usr/local/bin/review && \
     echo 'cd /workspace && ./scripts/review.sh "$@"' >> /usr/local/bin/review && \

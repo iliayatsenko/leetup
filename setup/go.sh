@@ -25,10 +25,8 @@ if [ ! -f solution.go ]; then
     echo "$RESPONSE" | jq -r '.question.codeSnippets[] | select(.langSlug=="golang") | .code' >> solution.go
 fi
 
-# Create check.sh script to run checks
-cat > check.sh <<'EOF'
-#!/bin/bash
-
+# go existence check
+go_check=$( cat <<'GO_CHECK'
 # Check if Go is installed
 if ! command -v go &> /dev/null; then
     echo "Go is not installed in leetup container. Installing..."
@@ -43,9 +41,35 @@ if ! command -v go &> /dev/null; then
 
     echo "Go installed successfully: $(go version)"
 fi
+GO_CHECK
+)
 
+# Create check.sh script to run checks
+cat > check.sh <<CHECK_EOF
+#!/bin/bash
+$go_check
 # Run Go tests with verbose output
 go test -v ./...
-EOF
+CHECK_EOF
+
+# Create debug.sh script to run debug session
+cat > debug.sh <<DEBUG_EOF
+#!/bin/bash
+$go_check
+# Check if delve is installed
+if ! command -v ~/go/bin/dlv &> /dev/null; then
+  go install github.com/go-delve/delve/cmd/dlv@latest
+fi
+
+# Write delve configuration
+cat > ~/.config/dlv/config.yml <<'DELVE_EOF'
+substitute-path:
+  - {from: /workspace, to: $HOST_PROJECT_PATH}
+DELVE_EOF
+
+# Run dlv session with go tests. See how to connect to it from GoLand IDE here: https://www.jetbrains.com/help/go/attach-to-running-go-processes-with-debugger.html#step-2-create-the-go-remote-run-debug-configuration
+~/go/bin/dlv test . --listen=:40000 --headless=true --api-version=2
+DEBUG_EOF
 
 chmod +x check.sh
+chmod +x debug.sh

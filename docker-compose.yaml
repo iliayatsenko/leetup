@@ -1,11 +1,13 @@
 services:
   leetcode-api:
     image: alfaarghya/alfa-leetcode-api:2.0.2
+    platform: linux/amd64
     container_name: leetcode-api
     ports:
       - "3000:3000"
   opencode:
     image: ghcr.io/anomalyco/opencode:latest
+    platform: linux/amd64
     container_name: opencode
     env_file: .env
     environment:
@@ -19,8 +21,16 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: leetup
+    environment:
+      - HOST_PROJECT_PATH=${PWD} # needed by delve for container-to-host paths mapping
     volumes:
       - .:/workspace
       - /var/run/docker.sock:/var/run/docker.sock # Map Docker socket in order to run commands in opencode container
+    ports:
+      - "40000:40000" # delve port
+    cap_add:
+      - SYS_PTRACE # needed by delve
+    security_opt:
+      - apparmor=unconfined # needed by delve
     depends_on:
       - leetcode-api
