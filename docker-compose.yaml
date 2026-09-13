@@ -19,6 +19,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: leetup
+    environment:
+      - HOST_PROJECT_PATH=${PWD}
     volumes:
       - .:/workspace
       - /var/run/docker.sock:/var/run/docker.sock # Map Docker socket in order to run commands in opencode container
