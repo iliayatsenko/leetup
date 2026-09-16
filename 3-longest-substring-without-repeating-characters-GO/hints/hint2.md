@@ -1,0 +1,1 @@
+The brute force approach works but is inefficient - generating all substrings takes O(n²) time, and checking each substring adds more overhead. Can you think of a way to avoid rechecking characters you've already processed? Consider: when you find a duplicate character, do you really need to start over from the beginning, or can you adjust your current window?

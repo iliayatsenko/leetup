@@ -1,0 +1,13 @@
+{
+    "name": "leetcode/longest-palindromic-substring",
+    "version": "1.0.0",
+    "require": {
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "config": {
+        "vendor-dir": "../deps/php/vendor"
+    }
+}
