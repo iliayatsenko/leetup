@@ -1,1 +1,0 @@
-Be careful not to move the left boundary backward: a previously recorded occurrence matters only if it is still inside the current window. An empty string should naturally produce a maximum length of zero, while repeated runs such as `"bbbbb"` should keep a window of length one.
