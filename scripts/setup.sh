@@ -103,4 +103,4 @@ fi
 source "../$LANG_SETUP_FILE"
 
 echo "⚡ Generating tests..."
-docker exec opencode opencode run --command leetup-tests "$PROBLEM_DIR"
+docker exec opencode opencode run --print-logs --command leetup-tests "$PROBLEM_DIR"
