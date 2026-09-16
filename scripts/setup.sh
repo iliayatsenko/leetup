@@ -13,7 +13,7 @@ fi
 LANGUAGE=$1
 
 # Validate that language setup file exists
-LANG_SETUP_FILE="setup/$LANGUAGE.sh"
+LANG_SETUP_FILE="setup/$LANGUAGE/setup.sh"
 if [ ! -f "$LANG_SETUP_FILE" ]; then
     echo "Error: Language '$LANGUAGE' is not supported yet"
     echo "Missing language setup file: $LANG_SETUP_FILE"
@@ -65,23 +65,42 @@ cleanup_text() {
 }
 export -f cleanup_text
 
+# Function to write a template to stdout, expanding placeholders
+# (exported for use in language-specific scripts)
+render_template() {
+    sed -e "s|{{PROBLEM_SLUG}}|$PROBLEM_SLUG|g" \
+        -e "s|{{HOST_PROJECT_PATH}}|$HOST_PROJECT_PATH|g" \
+        "$1"
+}
+export -f render_template
+
+# Function to render every script template of the given language directory into the
+# scripts directory of the problem (exported for use in language-specific scripts)
+render_scripts() {
+    mkdir -p scripts
+    for template in "$1"/*.sh.tmpl; do
+        script="scripts/$(basename "$template" .tmpl)"
+        render_template "$template" > "$script"
+        chmod +x "$script"
+    done
+}
+export -f render_scripts
+
 # Extract, format and write problem description
 echo "$RESPONSE" | jq -r '.question.content' | cleanup_text | pandoc -f html -t markdown >> problem.md
 
 # Extract, format and write hints if available
-if [ "$(echo "$RESPONSE" | jq -r '.question.hints | length')" -gt 0 ]; then
+HINTS_COUNT=$(echo "$RESPONSE" | jq -r '.question.hints | length')
+if [ "$HINTS_COUNT" -gt 0 ]; then
     mkdir -p hints
-    echo "$RESPONSE" | jq -r '.question.hints[]' | while IFS= read -r hint; do
-        N=$((${N:-0} + 1))
-        printf "%s" "$hint" | cleanup_text | pandoc -f html -t markdown > "hints/hint${N}.md"
+    # Index the hints instead of reading line by line, so multiline hints stay in one file
+    for ((i = 0; i < HINTS_COUNT; i++)); do
+        echo "$RESPONSE" | jq -r ".question.hints[$i]" | cleanup_text | pandoc -f html -t markdown > "hints/hint$((i + 1)).md"
     done
 fi
 
 # Source language-specific setup
 source "../$LANG_SETUP_FILE"
-
-echo "⚡ Generating hints..."
-docker exec opencode opencode run --command leetup-hints "$PROBLEM_DIR"
 
 echo "⚡ Generating tests..."
 docker exec opencode opencode run --command leetup-tests "$PROBLEM_DIR"

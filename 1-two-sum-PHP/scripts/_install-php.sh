@@ -30,15 +30,3 @@ if ! command -v composer &> /dev/null; then
 
     echo "Composer installed successfully: $(composer --version)"
 fi
-
-# Install dependencies if vendor directory doesn't exist
-if [ ! -d vendor ]; then
-    composer install --no-interaction
-fi
-
-# Run PHPUnit tests
-if [ -d tests ]; then
-    ./vendor/bin/phpunit tests
-else
-    echo "No tests directory found. Please create tests for your solution."
-fi

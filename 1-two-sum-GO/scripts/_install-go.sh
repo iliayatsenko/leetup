@@ -14,6 +14,3 @@ if ! command -v go &> /dev/null; then
 
     echo "Go installed successfully: $(go version)"
 fi
-
-# Run Go tests with verbose output
-go test -v ./...

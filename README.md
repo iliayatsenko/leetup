@@ -8,6 +8,7 @@ A streamlined LeetCode practice environment with automatic problem setup and mul
 - Generate problem descriptions, hints, and test scaffolding
 - Support for several programming languages (Go, PHP)
 - Run tests with a single command
+- Debug solutions from the IDE with delve (Go) and Xdebug (PHP)
 
 ## Usage
 
@@ -55,20 +56,44 @@ Example:
 docker exec leetup check 1-two-sum-GO
 ```
 
-### 6. Generate progressive hints
+### 6. Debug your solution
 
-If stuck, generate a series of progressive hints to guide you through the problem (in Claude Code terminal):
+```bash
+docker exec leetup debug <problem-directory>
+```
+
+Example:
+```bash
+docker exec leetup debug 1-two-sum-GO
+```
+
+The command starts a debug session running the tests and waits for the IDE to attach:
+
+- Go — headless delve session listening on port `40000`
+- PHP — Xdebug connecting out to the IDE listener on port `9003`
+
+Map `/workspace` in the container to the project directory on the host in the IDE path mappings. The generated `<problem-directory>/scripts/debug.sh` links to the IDE setup instructions.
+
+### 7. Generate progressive hints
+
+If stuck, generate a series of progressive hints to guide you through the problem:
+
+```bash
+docker exec leetup hints <problem-directory>
+```
+
+Example:
+```bash
+docker exec leetup hints 3-longest-substring-without-repeating-characters-GO
+```
+
+The same can be done from the Claude Code terminal:
 
 ```
 /leetup-hints <problem-directory>
 ```
 
-Example:
-```
-/leetup-hints 3-longest-substring-without-repeating-characters-GO
-```
-
-### 7. Review your solution
+### 8. Review your solution
 
 Get detailed feedback on your completed solution including complexity analysis and optimization suggestions (in Claude Code terminal):
 

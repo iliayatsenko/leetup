@@ -1,0 +1,1 @@
+Try tracing `"abba"`: after seeing the second `b`, the valid window must begin after the first `b`; when the final `a` appears, its earlier occurrence is already outside that window. This illustrates why a stored index may only advance the left boundary when it lies within the current window.

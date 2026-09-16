@@ -18,6 +18,11 @@ RUN echo '#!/bin/bash' > /usr/local/bin/debug && \
     echo 'cd /workspace && ./scripts/debug.sh "$@"' >> /usr/local/bin/debug && \
     chmod +x /usr/local/bin/debug
 
+# Create hints generation wrapper in container
+RUN echo '#!/bin/bash' > /usr/local/bin/hints && \
+    echo 'cd /workspace && ./scripts/hints.sh "$@"' >> /usr/local/bin/hints && \
+    chmod +x /usr/local/bin/hints
+
 # Create review wrapper in container
 RUN echo '#!/bin/bash' > /usr/local/bin/review && \
     echo 'cd /workspace && ./scripts/review.sh "$@"' >> /usr/local/bin/review && \

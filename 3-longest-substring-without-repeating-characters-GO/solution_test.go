@@ -26,19 +26,34 @@ func TestLengthOfLongestSubstring(t *testing.T) {
 			expected: 3,
 		},
 		{
-			name:     "Example 4",
-			s:        "aab",
+			name:     "Empty string",
+			s:        "",
+			expected: 0,
+		},
+		{
+			name:     "Single character",
+			s:        "a",
+			expected: 1,
+		},
+		{
+			name:     "Duplicate in the middle",
+			s:        "abba",
 			expected: 2,
 		},
 		{
-			name:     "Example 5",
+			name:     "Window restarts after duplicate",
 			s:        "dvdf",
 			expected: 3,
 		},
 		{
-			name:     "Example 6",
-			s:        "",
-			expected: 0,
+			name:     "Longest window after repeated prefix",
+			s:        "tmmzuxt",
+			expected: 5,
+		},
+		{
+			name:     "Space is a character",
+			s:        "a b a",
+			expected: 3,
 		},
 	}
 
