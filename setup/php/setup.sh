@@ -17,11 +17,6 @@ TEMPLATE_DIR=$(dirname "${BASH_SOURCE[0]}")
 printf "\n\n---\n\n### Environment:" >> problem.md
 echo "$RESPONSE" | jq -r '.question.envInfo' | jq -r '.php.[1]' | cleanup_text | pandoc -f html -t markdown >> problem.md
 
-# Create composer.json file
-if [ ! -f composer.json ]; then
-    render_template "$TEMPLATE_DIR/composer.json.tmpl" > composer.json
-fi
-
 # Create solution file if it doesn't exist and write PHP code snippet
 if [ ! -f solution.php ]; then
     render_template "$TEMPLATE_DIR/solution.php.tmpl" > solution.php
@@ -33,6 +28,6 @@ if [ ! -d tests ]; then
     mkdir tests
 fi
 
-# Create scripts to install dependencies and to run tests, along with
-# the check.sh and debug.sh entry points calling them
+# Create the script running the tests, along with the check.sh and debug.sh
+# entry points calling it
 render_scripts "$TEMPLATE_DIR"

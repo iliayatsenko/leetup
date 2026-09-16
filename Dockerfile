@@ -9,11 +9,15 @@ RUN apk add --no-cache go
 # Install delve, used to debug Go solutions
 RUN GOBIN=/usr/local/bin go install github.com/go-delve/delve/cmd/dlv@latest
 
-# Install PHP with the extensions PHPUnit needs, Composer and Xdebug
+# Install PHP with the extensions PHPUnit needs and Xdebug
 RUN apk add --no-cache \
     php php-cli php-mbstring php-xml php-dom php-ctype php-tokenizer \
     php-xmlwriter php-phar php-json php-iconv php-openssl \
-    composer php-pecl-xdebug
+    php-pecl-xdebug
+
+# Install PHPUnit, used to test PHP solutions
+RUN curl -fsSL -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar && \
+    chmod +x /usr/local/bin/phpunit
 
 # Enable Xdebug if the package did not, and write its configuration. Step debugging
 # is off by default so that check.sh keeps running at full speed, debug.sh turns it
