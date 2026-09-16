@@ -28,6 +28,6 @@ if [ ! -f solution.go ]; then
     echo "$RESPONSE" | jq -r '.question.codeSnippets[] | select(.langSlug=="golang") | .code' >> solution.go
 fi
 
-# Create scripts to install Go and delve, run tests and debug session,
-# along with the check.sh and debug.sh entry points calling them
+# Create scripts to run tests and debug session, along with the
+# check.sh and debug.sh entry points calling them
 render_scripts "$TEMPLATE_DIR"

@@ -33,6 +33,6 @@ if [ ! -d tests ]; then
     mkdir tests
 fi
 
-# Create scripts to install PHP, Xdebug and dependencies and to run tests,
-# along with the check.sh and debug.sh entry points calling them
+# Create scripts to install dependencies and to run tests, along with
+# the check.sh and debug.sh entry points calling them
 render_scripts "$TEMPLATE_DIR"

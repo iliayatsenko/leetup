@@ -3,6 +3,36 @@ FROM alpine:3
 # Install required tools
 RUN apk update && apk add --no-cache bash curl jq pandoc docker
 
+# Install Go toolchain
+RUN apk add --no-cache go
+
+# Install delve, used to debug Go solutions
+RUN GOBIN=/usr/local/bin go install github.com/go-delve/delve/cmd/dlv@latest
+
+# Install PHP with the extensions PHPUnit needs, Composer and Xdebug
+RUN apk add --no-cache \
+    php php-cli php-mbstring php-xml php-dom php-ctype php-tokenizer \
+    php-xmlwriter php-phar php-json php-iconv php-openssl \
+    composer php-pecl-xdebug
+
+# Enable Xdebug if the package did not, and write its configuration. Step debugging
+# is off by default so that check.sh keeps running at full speed, debug.sh turns it
+# on via XDEBUG_MODE
+RUN set -eu; \
+    PHP_CONF_DIR=$(php -r 'echo PHP_CONFIG_FILE_SCAN_DIR;'); \
+    mkdir -p "$PHP_CONF_DIR"; \
+    if ! php -m | grep -qi xdebug; then \
+        echo "zend_extension=xdebug.so" > "$PHP_CONF_DIR/00_xdebug.ini"; \
+    fi; \
+    printf '%s\n' \
+        'xdebug.mode=off' \
+        'xdebug.start_with_request=yes' \
+        'xdebug.client_host=host.docker.internal' \
+        'xdebug.client_port=9003' \
+        'xdebug.idekey=leetup' \
+        > "$PHP_CONF_DIR/zz_xdebug.ini"; \
+    php -m | grep -qi xdebug
+
 # Create setup wrapper in container
 RUN echo '#!/bin/bash' > /usr/local/bin/setup && \
     echo 'cd /workspace && ./scripts/setup.sh "$@"' >> /usr/local/bin/setup && \
@@ -31,5 +61,7 @@ RUN echo '#!/bin/bash' > /usr/local/bin/review && \
 # Set working directory
 WORKDIR /workspace
 
-# Keep container running
+# Write delve configuration, then keep container running. The entrypoint is read
+# from the mounted workspace, like the scripts the wrappers above call
+ENTRYPOINT ["/bin/bash", "/workspace/entrypoint.sh"]
 CMD ["tail", "-f", "/dev/null"]
