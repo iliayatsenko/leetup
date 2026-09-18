@@ -17,17 +17,26 @@ TEMPLATE_DIR=$(dirname "${BASH_SOURCE[0]}")
 printf "\n\n---\n\n### Environment:" >> problem.md
 echo "$RESPONSE" | jq -r '.question.envInfo' | jq -r '.php.[1]' | cleanup_text | pandoc -f html -t markdown >> problem.md
 
+# Create composer.json file
+if [ ! -f composer.json ]; then
+    render_template "$TEMPLATE_DIR/composer.json.tmpl" > composer.json
+fi
+
+# Install the dependencies declared by composer.json into deps/php/vendor, from now
+# on install.sh keeps them in sync
+composer install --no-interaction
+
 # Create solution file if it doesn't exist and write PHP code snippet
 if [ ! -f solution.php ]; then
     render_template "$TEMPLATE_DIR/solution.php.tmpl" > solution.php
     echo "$RESPONSE" | jq -r '.question.codeSnippets[] | select(.langSlug=="php") | .code' >> solution.php
 fi
 
-# Create tests directory if it doesn't exist
-if [ ! -d tests ]; then
-    mkdir tests
+# Create test file if it doesn't exist, the test generator agent fills it in
+if [ ! -f solution_test.php ]; then
+    render_template "$TEMPLATE_DIR/solution_test.php.tmpl" > solution_test.php
 fi
 
-# Create the script running the tests, along with the check.sh and debug.sh
-# entry points calling it
+# Create the script running the tests, along with the install.sh, check.sh and
+# debug.sh entry points
 render_scripts "$TEMPLATE_DIR"

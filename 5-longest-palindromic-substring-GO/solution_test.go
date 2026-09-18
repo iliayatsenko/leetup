@@ -2,16 +2,18 @@ package main
 
 import "testing"
 
-func TestLongestPalindromeExample1(t *testing.T) {
-	got := longestPalindrome("babad")
-	if got != "bab" {
-		t.Errorf("longestPalindrome(\"babad\") = %q, want %q", got, "bab")
+func TestExample1(t *testing.T) {
+	s := "babad"
+	result := longestPalindrome(s)
+	if result != "bab" && result != "aba" {
+		t.Errorf("expected 'bab' or 'aba', got '%s'", result)
 	}
 }
 
-func TestLongestPalindromeExample2(t *testing.T) {
-	got := longestPalindrome("cbbd")
-	if got != "bb" {
-		t.Errorf("longestPalindrome(\"cbbd\") = %q, want %q", got, "bb")
+func TestExample2(t *testing.T) {
+	s := "cbbd"
+	result := longestPalindrome(s)
+	if result != "bb" {
+		t.Errorf("expected 'bb', got '%s'", result)
 	}
 }

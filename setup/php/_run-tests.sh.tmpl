@@ -3,9 +3,9 @@
 # Run from the problem directory, not from the scripts one
 cd "$(dirname "$0")/.." || exit 1
 
-# Run PHPUnit tests, keeping its cache out of the problem directory
-if [ -d tests ]; then
-    phpunit --cache-directory /tmp/phpunit tests
+# Run PHPUnit tests
+if [ -f solution_test.php ]; then
+    ../deps/php/vendor/bin/phpunit solution_test.php
 else
-    echo "No tests directory found. Please create tests for your solution."
+    echo "No solution_test.php found. Please create tests for your solution."
 fi

@@ -4,8 +4,8 @@
 cd "$(dirname "$0")/.." || exit 1
 
 # Run PHPUnit tests
-if [ -d tests ]; then
-    ../deps/php/vendor/bin/phpunit tests
+if [ -f solution_test.php ]; then
+    ../deps/php/vendor/bin/phpunit solution_test.php
 else
-    echo "No tests directory found. Please create tests for your solution."
+    echo "No solution_test.php found. Please create tests for your solution."
 fi

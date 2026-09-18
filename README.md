@@ -45,7 +45,23 @@ Example:
 
 ### 4. Implement your solution in the `solution.<lang>` file
 
-### 5. Run tests
+### 5. Install dependencies
+
+Declare what the solution needs first — imports in Go, the `require` section of `composer.json` in PHP — then install them:
+
+```bash
+docker exec leetup install <problem-directory>
+```
+
+Examples:
+```bash
+docker exec leetup install 1-two-sum-GO
+docker exec leetup install 1-two-sum-PHP
+```
+
+Go runs `go mod tidy`, syncing `go.mod` and `go.sum` with the imports found in the code. PHP runs `composer update`, resolving `composer.json` into `deps/php/vendor` — `composer install` is not used because it refuses to run against a `composer.lock` that a hand-edited `require` section no longer matches.
+
+### 6. Run tests
 
 ```bash
 docker exec leetup check <problem-directory>
@@ -56,7 +72,7 @@ Example:
 docker exec leetup check 1-two-sum-GO
 ```
 
-### 6. Debug your solution
+### 7. Debug your solution
 
 ```bash
 docker exec leetup debug <problem-directory>
@@ -74,7 +90,7 @@ The command starts a debug session running the tests and waits for the IDE to at
 
 Map `/workspace` in the container to the project directory on the host in the IDE path mappings. The generated `<problem-directory>/scripts/debug.sh` links to the IDE setup instructions.
 
-### 7. Generate progressive hints
+### 8. Generate progressive hints
 
 If stuck, generate a series of progressive hints to guide you through the problem:
 
@@ -93,7 +109,7 @@ The same can be done from the Claude Code terminal:
 /leetup-hints <problem-directory>
 ```
 
-### 8. Review your solution
+### 9. Review your solution
 
 Get detailed feedback on your completed solution including complexity analysis and optimization suggestions (in Claude Code terminal):
 

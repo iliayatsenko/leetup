@@ -28,6 +28,11 @@ if [ ! -f solution.go ]; then
     echo "$RESPONSE" | jq -r '.question.codeSnippets[] | select(.langSlug=="golang") | .code' >> solution.go
 fi
 
-# Create scripts to run tests and debug session, along with the
-# check.sh and debug.sh entry points calling them
+# Create test file if it doesn't exist, the test generator agent fills it in
+if [ ! -f solution_test.go ]; then
+    render_template "$TEMPLATE_DIR/solution_test.go.tmpl" > solution_test.go
+fi
+
+# Create the script running the tests, along with the install.sh, check.sh and
+# debug.sh entry points
 render_scripts "$TEMPLATE_DIR"

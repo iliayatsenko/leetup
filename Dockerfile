@@ -9,15 +9,16 @@ RUN apk add --no-cache go
 # Install delve, used to debug Go solutions
 RUN GOBIN=/usr/local/bin go install github.com/go-delve/delve/cmd/dlv@latest
 
-# Install PHP with the extensions PHPUnit needs and Xdebug
+# Keep the Go module cache in the bind-mounted workspace, next to deps/php/vendor,
+# so it survives container recreation. Set after the delve install above, which has
+# to resolve its modules at build time, before the workspace is mounted
+ENV GOMODCACHE=/workspace/deps/go/pkg/mod
+
+# Install PHP with the extensions PHPUnit needs, Composer and Xdebug
 RUN apk add --no-cache \
     php php-cli php-mbstring php-xml php-dom php-ctype php-tokenizer \
     php-xmlwriter php-phar php-json php-iconv php-openssl \
-    php-pecl-xdebug
-
-# Install PHPUnit, used to test PHP solutions
-RUN curl -fsSL -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar && \
-    chmod +x /usr/local/bin/phpunit
+    composer php-pecl-xdebug
 
 # Enable Xdebug if the package did not, and write its configuration. Step debugging
 # is off by default so that check.sh keeps running at full speed, debug.sh turns it
@@ -41,6 +42,11 @@ RUN set -eu; \
 RUN echo '#!/bin/bash' > /usr/local/bin/setup && \
     echo 'cd /workspace && ./scripts/setup.sh "$@"' >> /usr/local/bin/setup && \
     chmod +x /usr/local/bin/setup
+
+# Create dependency installation wrapper in container
+RUN echo '#!/bin/bash' > /usr/local/bin/install && \
+    echo 'cd /workspace && ./scripts/install.sh "$@"' >> /usr/local/bin/install && \
+    chmod +x /usr/local/bin/install
 
 # Create testing wrapper in container
 RUN echo '#!/bin/bash' > /usr/local/bin/check && \

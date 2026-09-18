@@ -1,0 +1,1 @@
+Palindromes can have odd length (single character center like "aba") or even length (two character center like "abba"). When expanding around centers, you need to handle both cases: expand from each single character, and expand from each pair of adjacent characters.

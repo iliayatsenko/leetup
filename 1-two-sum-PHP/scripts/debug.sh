@@ -12,4 +12,5 @@ cd "$(dirname "$0")/.."
 ./scripts/_install-php.sh
 ./scripts/_install-xdebug.sh
 ./scripts/_install-deps.sh
-XDEBUG_MODE=debug ./scripts/_run-tests.sh
+
+XDEBUG_MODE=debug PHP_IDE_CONFIG="serverName=leetup" ./scripts/_run-tests.sh

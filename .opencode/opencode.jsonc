@@ -4,9 +4,30 @@
     "{env:OPENCODE_PROVIDER_ID}": {
       "options": {
         "apiKey": "{env:OPENCODE_API_KEY}"
-      },
-      "models": {
-        "{env:OPENCODE_MODEL_ID}": {}
+      }
+    }
+  },
+  "model": "{env:OPENCODE_MODEL_ID}",
+  "small_model": "{env:OPENCODE_SMALL_MODEL_ID}",
+  "permission": {
+    "question": "deny"
+  },
+  "agent": {
+    "leetup-test-generator": {
+      "model": "{env:OPENCODE_SMALL_MODEL_ID}",
+      "permission": {
+        "bash": "deny"
+      }
+    },
+    "leetup-reviewer": {
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
+    },
+    "leetup-hint-generator": {
+      "permission": {
+        "bash": "deny"
       }
     }
   }
