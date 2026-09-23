@@ -35,5 +35,4 @@ xdebug.mode=off
 xdebug.start_with_request=yes
 xdebug.client_host=host.docker.internal
 xdebug.client_port=9003
-xdebug.idekey=leetup
 XDEBUG_EOF

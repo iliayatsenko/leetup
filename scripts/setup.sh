@@ -66,11 +66,11 @@ cleanup_text() {
 export -f cleanup_text
 
 # Function to write a template to stdout, expanding placeholders
-# (exported for use in language-specific scripts)
+# (exported for use in language-specific scripts). Host-specific values are
+# deliberately not expanded here: the generated scripts are committed, so they
+# read them from the environment at run time instead
 render_template() {
-    sed -e "s|{{PROBLEM_SLUG}}|$PROBLEM_SLUG|g" \
-        -e "s|{{HOST_PROJECT_PATH}}|$HOST_PROJECT_PATH|g" \
-        "$1"
+    sed -e "s|{{PROBLEM_SLUG}}|$PROBLEM_SLUG|g" "$1"
 }
 export -f render_template
 

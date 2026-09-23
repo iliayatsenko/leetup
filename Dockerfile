@@ -20,22 +20,14 @@ RUN apk add --no-cache \
     php-xmlwriter php-phar php-json php-iconv php-openssl \
     composer php-pecl-xdebug
 
-# Enable Xdebug if the package did not, and write its configuration. Step debugging
-# is off by default so that check.sh keeps running at full speed, debug.sh turns it
-# on via XDEBUG_MODE
+# Enable Xdebug if the package did not. Its settings are host-specific, so the
+# entrypoint writes them on container start instead
 RUN set -eu; \
     PHP_CONF_DIR=$(php -r 'echo PHP_CONFIG_FILE_SCAN_DIR;'); \
     mkdir -p "$PHP_CONF_DIR"; \
     if ! php -m | grep -qi xdebug; then \
         echo "zend_extension=xdebug.so" > "$PHP_CONF_DIR/00_xdebug.ini"; \
     fi; \
-    printf '%s\n' \
-        'xdebug.mode=off' \
-        'xdebug.start_with_request=yes' \
-        'xdebug.client_host=host.docker.internal' \
-        'xdebug.client_port=9003' \
-        'xdebug.idekey=leetup' \
-        > "$PHP_CONF_DIR/zz_xdebug.ini"; \
     php -m | grep -qi xdebug
 
 # Create setup wrapper in container
@@ -43,10 +35,11 @@ RUN echo '#!/bin/bash' > /usr/local/bin/setup && \
     echo 'cd /workspace && ./scripts/setup.sh "$@"' >> /usr/local/bin/setup && \
     chmod +x /usr/local/bin/setup
 
-# Create dependency installation wrapper in container
-RUN echo '#!/bin/bash' > /usr/local/bin/install && \
-    echo 'cd /workspace && ./scripts/install.sh "$@"' >> /usr/local/bin/install && \
-    chmod +x /usr/local/bin/install
+# Create dependency installation wrapper in container. Named installdeps rather
+# than install so that it does not shadow the busybox install(1) the toolchains use
+RUN echo '#!/bin/bash' > /usr/local/bin/installdeps && \
+    echo 'cd /workspace && ./scripts/installdeps.sh "$@"' >> /usr/local/bin/installdeps && \
+    chmod +x /usr/local/bin/installdeps
 
 # Create testing wrapper in container
 RUN echo '#!/bin/bash' > /usr/local/bin/check && \
