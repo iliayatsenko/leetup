@@ -5,6 +5,7 @@ import (
 )
 
 func longestPalindrome(s string) string {
-	var que = q.New();
-	que.Enqueue()
+	var que = q.New()
+	que.Enqueue(1)
+	return ""
 }
