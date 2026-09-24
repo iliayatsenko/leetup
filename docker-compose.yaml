@@ -22,8 +22,8 @@ services:
       dockerfile: Dockerfile
     container_name: leetup
     # Everything the host varies in lands here rather than in the image, so that
-    # changing .env only needs a container restart. Listed one by one instead of
-    # env_file, which would also hand the opencode API key to this container
+    # changing .env needs no rebuild, only docker-compose up -d. Listed one by one
+    # instead of env_file, which would also hand the opencode API key to this container
     environment:
       - HOST_PROJECT_PATH=${PWD} # needed by delve for container-to-host paths mapping
       - XDEBUG_CLIENT_HOST=${XDEBUG_CLIENT_HOST:-host.docker.internal}

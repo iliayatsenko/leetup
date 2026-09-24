@@ -8,5 +8,11 @@ fi
 
 PROBLEM_DIR=$1
 
+# Check if problem directory exists
+if [ ! -d "$PROBLEM_DIR" ]; then
+    echo "Error: Problem directory '$PROBLEM_DIR' not found"
+    exit 1
+fi
+
 echo "⚡ Reviewing solution of problem $PROBLEM_DIR..."
 docker exec opencode opencode run --command leetup-review "$PROBLEM_DIR"

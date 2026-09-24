@@ -6,5 +6,4 @@ set -e
 # Run from the problem directory, not from the scripts one
 cd "$(dirname "$0")/.."
 
-./scripts/_install-go.sh
 ./scripts/_run-tests.sh

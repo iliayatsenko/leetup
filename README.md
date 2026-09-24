@@ -38,9 +38,11 @@ docker exec leetup setup go two-sum
 docker exec leetup setup php https://leetcode.com/problems/two-sum/
 ```
 
-### 4. Generate unit tests using Claude Code custom command
+Setup also generates `solution_test.<lang>` from the problem's examples, unless the problem already has one.
 
-After setting up a new problem, generate comprehensive unit tests (in Claude Code terminal):
+### 4. Regenerate unit tests (optional)
+
+To regenerate the tests, delete `solution_test.<lang>` and run in the opencode terminal:
 
 ```
 /leetup-tests <problem-directory>
@@ -67,18 +69,16 @@ docker exec leetup installdeps 1-two-sum-GO
 docker exec leetup installdeps 1-two-sum-PHP
 ```
 
-Go runs `go mod tidy`, syncing `go.mod` and `go.sum` with the imports found in the code. Modules are downloaded into the shared `deps/go/pkg/mod` cache, which is content-addressed, so problems cannot interfere with each other there.
+Go runs `go mod tidy`, syncing `go.mod` and `go.sum` with the imports found in the code. Modules are downloaded into the Go module cache at its default location inside the container, which is content-addressed, so problems cannot interfere with each other there. The cache lives in the container rather than the workspace, so recreating the container means downloading the modules again.
 
-PHP resolves two layers separately:
+PHP installs two layers separately:
 
-| Layer | Manifest | Installed into | Command |
-| --- | --- | --- | --- |
-| Test tooling, shared | `deps/php/composer.json` | `deps/php/vendor` | `composer install`, once |
-| The solution's own deps | `<problem-directory>/composer.json` | `<problem-directory>/vendor` | `composer update`, per problem |
+| Layer | Manifest | Installed into |
+| --- | --- | --- |
+| Test tooling, shared | `deps/php/composer.json` | `deps/php/vendor`, once |
+| The solution's own deps | `<problem-directory>/composer.json` | `<problem-directory>/vendor` |
 
-Each problem owning its own `vendor` is deliberate: Composer makes a vendor directory match the manifest it was run from *exactly*, removing anything absent from it, so pointing several problems at one shared `vendor` means installing one uninstalls the others' packages. Only PHPUnit is shared, because it is the heavy part — about 10M against a few hundred K for a typical problem dependency — and because it has to sit under `/workspace` for the IDE to resolve its sources while debugging, which is why it is installed here rather than baked into the image.
-
-The tooling uses `composer install` since `deps/php/composer.lock` pins it; a problem uses `composer update`, because `install` refuses to run against a `composer.lock` that a hand-edited `require` section no longer matches. PHPUnit is then run with `--bootstrap vendor/autoload.php` so that the problem's own packages resolve, since the shared PHPUnit's autoloader knows nothing about them.
+Each problem has its own `vendor`, so installing one problem never removes another's packages. Only PHPUnit is shared. It lives under `/workspace` rather than in the image so the IDE can resolve its sources while debugging (a phar can't be mapped to files on disk).
 
 ### 7. Run tests
 
@@ -122,7 +122,7 @@ Example:
 docker exec leetup hints 3-longest-substring-without-repeating-characters-GO
 ```
 
-The same can be done from the Claude Code terminal:
+The same can be done from the opencode terminal:
 
 ```
 /leetup-hints <problem-directory>
@@ -130,15 +130,21 @@ The same can be done from the Claude Code terminal:
 
 ### 10. Review your solution
 
-Get detailed feedback on your completed solution including complexity analysis and optimization suggestions (in Claude Code terminal):
+Get detailed feedback on your completed solution including complexity analysis and optimization suggestions:
 
-```
-/leetup-review <problem-directory>
+```bash
+docker exec leetup review <problem-directory>
 ```
 
 Example:
+```bash
+docker exec leetup review 1-two-sum-GO
 ```
-/leetup-review 1-two-sum-GO
+
+The same can be done from the opencode terminal:
+
+```
+/leetup-review <problem-directory>
 ```
 
 ## Configuration
@@ -172,4 +178,3 @@ to the `leetup` service, or point `XDEBUG_CLIENT_HOST` at the `docker0` address.
 
 - Docker
 - Docker Compose
-- Claude Code

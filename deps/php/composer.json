@@ -1,6 +1,6 @@
 {
     "name": "leetup/php-tooling",
-    "description": "The test tooling every PHP problem shares, installed once into deps/php/vendor. It lives under /workspace rather than in the image so the IDE can resolve PHPUnit's own sources while debugging",
+    "description": "Test tooling shared by every PHP problem",
     "version": "1.0.0",
     "require": {
         "php": "^8.2"

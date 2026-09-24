@@ -28,15 +28,10 @@ if [ ! -f solution.php ]; then
     echo "$RESPONSE" | jq -r '.question.codeSnippets[] | select(.langSlug=="php") | .code' >> solution.php
 fi
 
-# Create test file if it doesn't exist, the test generator agent fills it in
-if [ ! -f solution_test.php ]; then
-    render_template "$TEMPLATE_DIR/solution_test.php.tmpl" > solution_test.php
-fi
-
 # Create the script running the tests, along with the installdeps.sh, check.sh and
 # debug.sh entry points
 render_scripts "$TEMPLATE_DIR"
 
-# Resolve this problem into deps/php/vendor, which also brings in the shared test
-# tooling on a cold checkout. Through the same entry point the solver uses later
+# Install the shared test tooling if missing and this problem's own dependencies,
+# through the same entry point the solver uses later
 ./scripts/installdeps.sh

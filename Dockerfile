@@ -1,18 +1,10 @@
 FROM alpine:3
 
-# Install required tools
-RUN apk update && apk add --no-cache bash curl jq pandoc docker
-
-# Install Go toolchain
-RUN apk add --no-cache go
+# Install required tools and the Go toolchain
+RUN apk add --no-cache bash curl jq pandoc docker go
 
 # Install delve, used to debug Go solutions
 RUN GOBIN=/usr/local/bin go install github.com/go-delve/delve/cmd/dlv@latest
-
-# Keep the Go module cache in the bind-mounted workspace, next to deps/php/vendor,
-# so it survives container recreation. Set after the delve install above, which has
-# to resolve its modules at build time, before the workspace is mounted
-ENV GOMODCACHE=/workspace/deps/go/pkg/mod
 
 # Install PHP with the extensions PHPUnit needs, Composer and Xdebug
 RUN apk add --no-cache \
@@ -30,41 +22,19 @@ RUN set -eu; \
     fi; \
     php -m | grep -qi xdebug
 
-# Create setup wrapper in container
-RUN echo '#!/bin/bash' > /usr/local/bin/setup && \
-    echo 'cd /workspace && ./scripts/setup.sh "$@"' >> /usr/local/bin/setup && \
-    chmod +x /usr/local/bin/setup
-
-# Create dependency installation wrapper in container. Named installdeps rather
-# than install so that it does not shadow the busybox install(1) the toolchains use
-RUN echo '#!/bin/bash' > /usr/local/bin/installdeps && \
-    echo 'cd /workspace && ./scripts/installdeps.sh "$@"' >> /usr/local/bin/installdeps && \
-    chmod +x /usr/local/bin/installdeps
-
-# Create testing wrapper in container
-RUN echo '#!/bin/bash' > /usr/local/bin/check && \
-    echo 'cd /workspace && ./scripts/check.sh "$@"' >> /usr/local/bin/check && \
-    chmod +x /usr/local/bin/check
-
-# Create debugging wrapper in container
-RUN echo '#!/bin/bash' > /usr/local/bin/debug && \
-    echo 'cd /workspace && ./scripts/debug.sh "$@"' >> /usr/local/bin/debug && \
-    chmod +x /usr/local/bin/debug
-
-# Create hints generation wrapper in container
-RUN echo '#!/bin/bash' > /usr/local/bin/hints && \
-    echo 'cd /workspace && ./scripts/hints.sh "$@"' >> /usr/local/bin/hints && \
-    chmod +x /usr/local/bin/hints
-
-# Create review wrapper in container
-RUN echo '#!/bin/bash' > /usr/local/bin/review && \
-    echo 'cd /workspace && ./scripts/review.sh "$@"' >> /usr/local/bin/review && \
-    chmod +x /usr/local/bin/review
+# Create a command per workspace script, e.g. check runs scripts/check.sh. The
+# dependency one is installdeps rather than install so that it does not shadow
+# the busybox install(1) the toolchains use
+RUN for cmd in setup installdeps check debug hints review; do \
+        printf '#!/bin/bash\ncd /workspace && ./scripts/%s.sh "$@"\n' "$cmd" > "/usr/local/bin/$cmd"; \
+        chmod +x "/usr/local/bin/$cmd"; \
+    done
 
 # Set working directory
 WORKDIR /workspace
 
-# Write delve configuration, then keep container running. The entrypoint is read
-# from the mounted workspace, like the scripts the wrappers above call
+# Write delve and Xdebug configuration, then keep container running. The
+# entrypoint is read from the mounted workspace, like the scripts the commands
+# above call
 ENTRYPOINT ["/bin/bash", "/workspace/entrypoint.sh"]
 CMD ["tail", "-f", "/dev/null"]

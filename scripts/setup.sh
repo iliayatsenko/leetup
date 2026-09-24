@@ -5,7 +5,7 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     echo "Usage: $0 <language> <problem-slug-or-link>"
     echo "Examples:"
     echo "  $0 go two-sum"
-    echo "  $0 js https://leetcode.com/problems/two-sum/"
+    echo "  $0 php https://leetcode.com/problems/two-sum/"
     exit 1
 fi
 
@@ -40,6 +40,10 @@ fi
 
 # Prepare directory
 ID=$(echo "$RESPONSE" | jq -r '.question.questionId')
+if [ -z "$ID" ] || [ "$ID" = "null" ]; then
+    echo "Error: Problem '$PROBLEM_SLUG' not found"
+    exit 1
+fi
 LANG_UPPER=$(echo "$LANGUAGE" | tr '[:lower:]' '[:upper:]')
 PROBLEM_DIR="$ID-$PROBLEM_SLUG-$LANG_UPPER"
 mkdir -p "$PROBLEM_DIR" || { echo "Failure to create directory"; exit 1; }
@@ -59,23 +63,20 @@ if [ -n "$TAGS" ]; then
 fi
 printf "\n\n---\n\n" >> problem.md
 
-# Function to clean up text (exported for use in language-specific scripts)
+# Function to clean up text fetched from LeetCode API
 cleanup_text() {
     sed 's/\\n/ /g;s/\\r/ /g;s/\\t/ /g;s/\&nbsp;/ /g'
 }
-export -f cleanup_text
 
-# Function to write a template to stdout, expanding placeholders
-# (exported for use in language-specific scripts). Host-specific values are
-# deliberately not expanded here: the generated scripts are committed, so they
-# read them from the environment at run time instead
+# Function to write a template to stdout, expanding placeholders. Host-specific
+# values are deliberately not expanded here: the generated scripts are committed,
+# so they read them from the environment at run time instead
 render_template() {
     sed -e "s|{{PROBLEM_SLUG}}|$PROBLEM_SLUG|g" "$1"
 }
-export -f render_template
 
 # Function to render every script template of the given language directory into the
-# scripts directory of the problem (exported for use in language-specific scripts)
+# scripts directory of the problem
 render_scripts() {
     mkdir -p scripts
     for template in "$1"/*.sh.tmpl; do
@@ -84,7 +85,6 @@ render_scripts() {
         chmod +x "$script"
     done
 }
-export -f render_scripts
 
 # Extract, format and write problem description
 echo "$RESPONSE" | jq -r '.question.content' | cleanup_text | pandoc -f html -t markdown >> problem.md
@@ -102,5 +102,11 @@ fi
 # Source language-specific setup
 source "../$LANG_SETUP_FILE"
 
-echo "⚡ Generating tests..."
-docker exec opencode opencode run --command leetup-tests "$PROBLEM_DIR"
+# Generate the tests, unless the problem already carries a test file: the agent
+# writes that file from scratch, so a second run would throw away existing tests
+if compgen -G "solution_test.*" > /dev/null; then
+    echo "⚡ Test file already present, skipping test generation"
+else
+    echo "⚡ Generating tests..."
+    docker exec opencode opencode run --command leetup-tests "$PROBLEM_DIR"
+fi
