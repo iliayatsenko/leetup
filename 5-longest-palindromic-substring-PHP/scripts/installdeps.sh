@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Entry point for installing the dependencies declared by the solution
-set -e
+# Fail on errors and unset variables, and print each command before running it
+set -eux
 
 # Run from the problem directory, not from the scripts one
 cd "$(dirname "$0")/.."

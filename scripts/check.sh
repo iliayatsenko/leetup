@@ -16,5 +16,4 @@ fi
 
 # Run checks
 echo "⚡ Checking solution of problem $PROBLEM_DIR..."
-cd "$PROBLEM_DIR" || { echo "Error: Unable to change directory to '$PROBLEM_DIR'"; exit 1; }
-./scripts/check.sh
+"$PROBLEM_DIR/scripts/check.sh"

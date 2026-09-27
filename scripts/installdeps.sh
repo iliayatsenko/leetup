@@ -16,5 +16,4 @@ fi
 
 # Install the declared dependencies
 echo "⚡ Installing dependencies of problem $PROBLEM_DIR..."
-cd "$PROBLEM_DIR" || { echo "Error: Unable to change directory to '$PROBLEM_DIR'"; exit 1; }
-./scripts/installdeps.sh
+"$PROBLEM_DIR/scripts/installdeps.sh"

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Run from the problem directory, not from the scripts one
-cd "$(dirname "$0")/.." || exit 1
-
 PHPUNIT=../deps/php/vendor/bin/phpunit
 
 # Run PHPUnit tests. PHPUnit is shared tooling installed under deps/php, so its own

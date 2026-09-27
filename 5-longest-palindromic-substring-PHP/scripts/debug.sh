@@ -5,7 +5,8 @@
 # on the host in the IDE, under the server named by PHP_IDE_SERVER_NAME:
 #  - PhpStorm - https://www.jetbrains.com/help/phpstorm/zero-configuration-debugging.html
 #  - VSCode - https://github.com/xdebug/vscode-php-debug#remote-host-debugging
-set -e
+# Fail on errors and unset variables, and print each command before running it
+set -eux
 
 # Run from the problem directory, not from the scripts one
 cd "$(dirname "$0")/.."

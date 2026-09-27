@@ -16,5 +16,4 @@ fi
 
 # Run debug session
 echo "⚡ Running debug session for solution of problem $PROBLEM_DIR..."
-cd "$PROBLEM_DIR" || { echo "Error: Unable to change directory to '$PROBLEM_DIR'"; exit 1; }
-./scripts/debug.sh
+"$PROBLEM_DIR/scripts/debug.sh"
