@@ -21,19 +21,16 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: leetup
-    # Everything the host varies in lands here rather than in the image, so that
-    # changing .env needs no rebuild, only docker-compose up -d. Listed one by one
-    # instead of env_file, which would also hand the opencode API key to this container
     environment:
-      - HOST_PROJECT_PATH=${PWD} # needed by delve for container-to-host paths mapping
+      - HOST_PROJECT_PATH=${PWD}
       - XDEBUG_CLIENT_HOST=${XDEBUG_CLIENT_HOST:-host.docker.internal}
       - XDEBUG_CLIENT_PORT=${XDEBUG_CLIENT_PORT:-9003}
       - PHP_IDE_SERVER_NAME=${PHP_IDE_SERVER_NAME:-leetup}
     volumes:
       - .:/workspace
-      - /var/run/docker.sock:/var/run/docker.sock # Map Docker socket in order to run commands in opencode container
+      - /var/run/docker.sock:/var/run/docker.sock # Map Docker socket for running commands in opencode container
     ports:
-      - "${DELVE_PORT:-40000}:40000" # delve port
+      - "${DELVE_PORT:-40000}:40000"
     cap_add:
       - SYS_PTRACE # needed by delve
     security_opt:

@@ -102,8 +102,7 @@ fi
 # Source language-specific setup
 source "../$LANG_SETUP_FILE"
 
-# Generate the tests, unless the problem already carries a test file: the agent
-# writes that file from scratch, so a second run would throw away existing tests
+# Generate the tests file, if not exists
 if compgen -G "solution_test.*" > /dev/null; then
     echo "⚡ Test file already present, skipping test generation"
 else
