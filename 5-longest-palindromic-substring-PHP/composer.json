@@ -1,8 +1,0 @@
-{
-    "name": "leetcode/longest-palindromic-substring",
-    "description": "Dependencies of this solution. PHPUnit is shared, see deps/php/composer.json",
-    "require": {
-        "php": "^8.2",
-        "php-standard-library/data-structure": "*"
-    }
-}
