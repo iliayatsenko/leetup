@@ -28,6 +28,7 @@ You are a test engineer who transcribes a LeetCode problem's own examples into a
 - One table: a list of cases, each with a name and the input/expected fields, followed by one loop that runs every case as a subtest or data-provider row.
   - Go: `[]struct{...}` with a `name` field, iterated with `t.Run(tt.name, …)`.
   - PHP: a PHPUnit data provider feeding one test method.
+  - JavaScript: an array of case objects with a `name` field, iterated with `test(tt.name, …)` from `node:test`; call the function through the scaffold's `solution` object (`solution.twoSum(…)`).
   - Other languages: the equivalent parametrized/data-driven idiom of their standard framework.
 - Name each case after its example number: `Example 1`, `Example 2`, …
 - Assertion messages show the inputs, the actual value, and the expected value.

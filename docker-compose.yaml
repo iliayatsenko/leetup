@@ -31,6 +31,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # Map Docker socket for running commands in opencode container
     ports:
       - "${DELVE_PORT:-40000}:40000"
+      - "${NODE_INSPECT_PORT:-9229}:9229"
     cap_add:
       - SYS_PTRACE # needed by delve
     security_opt:

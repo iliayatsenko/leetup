@@ -6,6 +6,7 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     echo "Examples:"
     echo "  $0 go two-sum"
     echo "  $0 php https://leetcode.com/problems/two-sum/"
+    echo "  $0 js two-sum"
     exit 1
 fi
 

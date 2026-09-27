@@ -1,7 +1,10 @@
 FROM alpine:3
 
-# Install required tools and the Go toolchain
-RUN apk add --no-cache bash curl jq pandoc docker go
+# Install required tools
+RUN apk add --no-cache bash curl jq pandoc docker
+
+# Install Go toolchain
+RUN apk add --no-cache go
 
 # Install delve, used to debug Go solutions
 RUN GOBIN=/usr/local/bin go install github.com/go-delve/delve/cmd/dlv@latest
@@ -11,6 +14,9 @@ RUN apk add --no-cache \
     php php-cli php-mbstring php-xml php-dom php-ctype php-tokenizer \
     php-xmlwriter php-phar php-json php-iconv php-openssl \
     composer php-pecl-xdebug
+
+# Install Node.js and npm
+RUN apk add --no-cache nodejs npm
 
 # Enable Xdebug. Its settings are host-specific, so the
 # entrypoint writes them on container start instead

@@ -6,9 +6,9 @@ A streamlined LeetCode practice environment with automatic problem setup and mul
 
 - Fetch LeetCode problems automatically from API
 - Generate problem descriptions, hints, and test scaffolding
-- Support for several programming languages (Go, PHP)
+- Support for several programming languages (Go, PHP, JavaScript)
 - Run tests with a single command
-- Debug solutions from the IDE with delve (Go) and Xdebug (PHP)
+- Debug solutions from the IDE with delve (Go), Xdebug (PHP) and the Node inspector (JavaScript)
 
 ## Usage
 
@@ -36,6 +36,7 @@ Examples:
 ```bash
 docker exec leetup setup go two-sum
 docker exec leetup setup php https://leetcode.com/problems/two-sum/
+docker exec leetup setup js two-sum
 ```
 
 Setup also generates `solution_test.<lang>` from the problem's examples, unless the problem already has one.
@@ -57,7 +58,7 @@ Example:
 
 ### 6. Install dependencies
 
-Declare what the solution needs first — imports in Go, the `require` section of `composer.json` in PHP — then install them:
+Declare what the solution needs first — imports in Go, the `require` section of `composer.json` in PHP, the `dependencies` section of `package.json` in JavaScript — then install them:
 
 ```bash
 docker exec leetup installdeps <problem-directory>
@@ -67,6 +68,7 @@ Examples:
 ```bash
 docker exec leetup installdeps 1-two-sum-GO
 docker exec leetup installdeps 1-two-sum-PHP
+docker exec leetup installdeps 1-two-sum-JS
 ```
 
 Go runs `go mod tidy`, syncing `go.mod` and `go.sum` with the imports found in the code. Modules are downloaded into the Go module cache at its default location inside the container, which is content-addressed, so problems cannot interfere with each other there. The cache lives in the container rather than the workspace, so recreating the container means downloading the modules again.
@@ -79,6 +81,8 @@ PHP installs two layers separately:
 | The solution's own deps | `<problem-directory>/composer.json` | `<problem-directory>/vendor` |
 
 Each problem has its own `vendor`, so installing one problem never removes another's packages. Only PHPUnit is shared. It lives under `/workspace` rather than in the image so the IDE can resolve its sources while debugging (a phar can't be mapped to files on disk).
+
+JavaScript runs `npm install` into the problem's own `node_modules`. Tests use Node's built-in `node:test` runner, so there is no test tooling to install and a fresh problem declares no packages at all. `setup` appends `module.exports` for the function (or class) the LeetCode snippet declares, so the test can `require` it.
 
 ### 7. Run tests
 
@@ -106,6 +110,7 @@ The command starts a debug session running the tests and waits for the IDE to at
 
 - Go — headless delve session, reachable on the host at `DELVE_PORT`
 - PHP — Xdebug connecting out to the IDE listener at `XDEBUG_CLIENT_HOST:XDEBUG_CLIENT_PORT`
+- JavaScript — Node inspector paused on the first line, reachable on the host at `NODE_INSPECT_PORT`
 
 Map `/workspace` in the container to the project directory on the host in the IDE path mappings. The generated `<problem-directory>/scripts/debug.sh` links to the IDE setup instructions.
 
@@ -159,6 +164,7 @@ Anything that varies from one machine to another lives in `.env`, never in the i
 | `OPENCODE_API_KEY` | — | Provider credentials |
 | `LEETCODE_API_PORT` | `3000` | Host port the problem API is published on |
 | `DELVE_PORT` | `40000` | Host port the Go debugger is published on |
+| `NODE_INSPECT_PORT` | `9229` | Host port the JavaScript debugger is published on |
 | `XDEBUG_CLIENT_HOST` | `host.docker.internal` | Where Xdebug reaches the IDE from inside the container |
 | `XDEBUG_CLIENT_PORT` | `9003` | Port the IDE listens for Xdebug on |
 | `PHP_IDE_SERVER_NAME` | `leetup` | IDE server entry holding the `/workspace` path mapping |
