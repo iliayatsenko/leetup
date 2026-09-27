@@ -1,0 +1,1 @@
+Consider an alternative approach: instead of building up from smaller palindromes, what if you treat each position (or pair of positions) as a potential palindrome center and expand outward? A palindrome reads the same forwards and backwards, so characters must match symmetrically around the center.

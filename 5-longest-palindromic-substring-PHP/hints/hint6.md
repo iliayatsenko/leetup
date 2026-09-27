@@ -1,0 +1,1 @@
+For the expand-around-center approach: iterate through each possible center position in the string, expand outward as long as characters match on both sides, track the longest palindrome found, and return the corresponding substring. Remember to check both odd-length centers (single index) and even-length centers (between two indices).

@@ -1,0 +1,1 @@
+The key challenge is handling lists of different lengths. What should you do when one list ends but the other still has digits remaining? Consider treating a finished list as having "0" values for its remaining positions. Also think about what happens in Example 3: even after both lists are exhausted, you might still have a carry that needs to become its own node.
