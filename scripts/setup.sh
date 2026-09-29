@@ -45,6 +45,19 @@ if [ -z "$ID" ] || [ "$ID" = "null" ]; then
     echo "Error: Problem '$PROBLEM_SLUG' not found"
     exit 1
 fi
+
+# Stop before creating anything if LeetCode offers no code snippet for the language
+# (e.g. database or shell problems)
+case "$LANGUAGE" in
+    go) LANG_SLUG="golang" ;;
+    js) LANG_SLUG="javascript" ;;
+    *) LANG_SLUG="$LANGUAGE" ;;
+esac
+if ! echo "$RESPONSE" | jq -e --arg slug "$LANG_SLUG" '.question.codeSnippets // [] | any(.langSlug == $slug)' > /dev/null; then
+    echo "Error: Problem '$PROBLEM_SLUG' has no code snippet for language '$LANGUAGE'"
+    exit 1
+fi
+
 LANG_UPPER=$(echo "$LANGUAGE" | tr '[:lower:]' '[:upper:]')
 PROBLEM_DIR="$ID-$PROBLEM_SLUG-$LANG_UPPER"
 mkdir -p "$PROBLEM_DIR" || { echo "Failure to create directory"; exit 1; }
