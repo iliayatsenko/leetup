@@ -14,5 +14,18 @@ if [ ! -d "$PROBLEM_DIR" ]; then
     exit 1
 fi
 
+# The credentials live in the opencode container (loaded from .env), so look them up there
+MISSING_VARS=()
+for var in OPENCODE_PROVIDER_ID OPENCODE_MODEL_ID OPENCODE_API_KEY; do
+    if [ -z "$(docker exec opencode printenv "$var")" ]; then
+        MISSING_VARS+=("$var")
+    fi
+done
+
+if [ ${#MISSING_VARS[@]} -gt 0 ]; then
+    echo "⚠️  Skipping hints generation, not set in .env: ${MISSING_VARS[*]}"
+    exit 0
+fi
+
 echo "⚡ Generating hints for problem $PROBLEM_DIR..."
 docker exec opencode opencode run --command leetup-hints "$PROBLEM_DIR"

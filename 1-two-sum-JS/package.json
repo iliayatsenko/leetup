@@ -1,8 +1,7 @@
 {
-    "name": "@leetcode/{{PROBLEM_SLUG}}",
+    "name": "@leetcode/two-sum",
     "private": true,
     "description": "Dependencies of this solution. Tests use the built-in node:test runner, so none are needed by default",
     "dependencies": {
-
-     }
+    }
 }

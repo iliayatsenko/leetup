@@ -107,6 +107,18 @@ source "../$LANG_SETUP_FILE"
 if compgen -G "solution_test.*" > /dev/null; then
     echo "⚡ Test file already present, skipping test generation"
 else
-    echo "⚡ Generating tests..."
-    docker exec opencode opencode run --command leetup-tests "$PROBLEM_DIR"
+    # The credentials live in the opencode container (loaded from .env), so look them up there
+    MISSING_VARS=()
+    for var in OPENCODE_PROVIDER_ID OPENCODE_SMALL_MODEL_ID OPENCODE_API_KEY; do
+        if [ -z "$(docker exec opencode printenv "$var")" ]; then
+            MISSING_VARS+=("$var")
+        fi
+    done
+
+    if [ ${#MISSING_VARS[@]} -gt 0 ]; then
+        echo "⚠️  Skipping test generation, not set in .env: ${MISSING_VARS[*]}"
+    else
+        echo "⚡ Generating tests..."
+        docker exec opencode opencode run --command leetup-tests "$PROBLEM_DIR"
+    fi
 fi
