@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "php-standard-library/data-structure",
-            "version": "6.2.1",
+            "version": "6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-standard-library/data-structure.git",
-                "reference": "9cc00f714ab3a48e935b6917ef2dc2e2710f16a8"
+                "reference": "ee1b0e424b2b95da7256c0a69fe334c5072eba54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-standard-library/data-structure/zipball/9cc00f714ab3a48e935b6917ef2dc2e2710f16a8",
-                "reference": "9cc00f714ab3a48e935b6917ef2dc2e2710f16a8",
+                "url": "https://api.github.com/repos/php-standard-library/data-structure/zipball/ee1b0e424b2b95da7256c0a69fe334c5072eba54",
+                "reference": "ee1b0e424b2b95da7256c0a69fe334c5072eba54",
                 "shasum": ""
             },
             "require": {
@@ -34,7 +34,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-next": "6.2.x-dev"
+                    "dev-next": "6.3.x-dev"
                 }
             },
             "autoload": {
@@ -65,22 +65,22 @@
                 "stack"
             ],
             "support": {
-                "source": "https://github.com/php-standard-library/data-structure/tree/6.2.1"
+                "source": "https://github.com/php-standard-library/data-structure/tree/6.3.0"
             },
-            "time": "2026-03-28T18:39:47+00:00"
+            "time": "2026-09-25T15:54:11+00:00"
         },
         {
             "name": "php-standard-library/default",
-            "version": "6.2.1",
+            "version": "6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-standard-library/default.git",
-                "reference": "89f05ec6e6a29e8c07de7b6755d14d05b06048e2"
+                "reference": "6f7daf0864b4f319dee645cb0ffd7c4be0c9907c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-standard-library/default/zipball/89f05ec6e6a29e8c07de7b6755d14d05b06048e2",
-                "reference": "89f05ec6e6a29e8c07de7b6755d14d05b06048e2",
+                "url": "https://api.github.com/repos/php-standard-library/default/zipball/6f7daf0864b4f319dee645cb0ffd7c4be0c9907c",
+                "reference": "6f7daf0864b4f319dee645cb0ffd7c4be0c9907c",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-next": "6.2.x-dev"
+                    "dev-next": "6.3.x-dev"
                 }
             },
             "autoload": {
@@ -124,22 +124,22 @@
                 "interface"
             ],
             "support": {
-                "source": "https://github.com/php-standard-library/default/tree/6.2.1"
+                "source": "https://github.com/php-standard-library/default/tree/6.3.0"
             },
-            "time": "2026-03-28T18:39:47+00:00"
+            "time": "2026-09-25T15:54:11+00:00"
         },
         {
             "name": "php-standard-library/foundation",
-            "version": "6.2.1",
+            "version": "6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-standard-library/foundation.git",
-                "reference": "7f65cec48c8ed3d53dc8dd7643796e2ba6de6008"
+                "reference": "9b464388f93b5c496bd6a17912e5cdc846b9df1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-standard-library/foundation/zipball/7f65cec48c8ed3d53dc8dd7643796e2ba6de6008",
-                "reference": "7f65cec48c8ed3d53dc8dd7643796e2ba6de6008",
+                "url": "https://api.github.com/repos/php-standard-library/foundation/zipball/9b464388f93b5c496bd6a17912e5cdc846b9df1e",
+                "reference": "9b464388f93b5c496bd6a17912e5cdc846b9df1e",
                 "shasum": ""
             },
             "require": {
@@ -154,7 +154,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-next": "6.2.x-dev"
+                    "dev-next": "6.3.x-dev"
                 }
             },
             "autoload": {
@@ -187,9 +187,9 @@
                 "invariant"
             ],
             "support": {
-                "source": "https://github.com/php-standard-library/foundation/tree/6.2.1"
+                "source": "https://github.com/php-standard-library/foundation/tree/6.3.0"
             },
-            "time": "2026-04-28T06:28:49+00:00"
+            "time": "2026-09-25T15:54:11+00:00"
         }
     ],
     "packages-dev": [],

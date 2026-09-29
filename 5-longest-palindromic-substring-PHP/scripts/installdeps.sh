@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Entry point for installing the dependencies declared by the solution
+
 # Fail on errors and unset variables, and print each command before running it
 set -eux
 
@@ -9,8 +10,7 @@ cd "$(dirname "$0")/.."
 
 DEPS_DIR=../deps/php
 
-# Install the test tooling shared by every PHP problem, once. It is pinned by
-# deps/php/composer.lock, so this is composer install rather than update
+# Install the test tooling shared by every PHP problem, once.
 if [ ! -x "$DEPS_DIR/vendor/bin/phpunit" ]; then
     composer install --working-dir="$DEPS_DIR" --no-interaction
 fi
