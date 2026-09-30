@@ -1,1 +1,0 @@
-Think about how you can find the earliest date for each player when you have multiple records per player. What SQL operation allows you to compute a value (like minimum, maximum, or sum) for groups of rows?

@@ -52,7 +52,7 @@ fi
 case "$LANGUAGE" in
     go) LANG_SLUG="golang" ;;
     js) LANG_SLUG="javascript" ;;
-    sql) LANG_SLUG="postgresql" ;;
+    sql) LANG_SLUG="mysql" ;;
     *) LANG_SLUG="$LANGUAGE" ;;
 esac
 if ! echo "$RESPONSE" | jq -e --arg slug "$LANG_SLUG" '.question.codeSnippets // [] | any(.langSlug == $slug)' > /dev/null; then

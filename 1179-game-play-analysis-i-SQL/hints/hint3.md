@@ -1,1 +1,0 @@
-The solution requires a single SELECT statement with two columns: player_id and the MIN(event_date) aliased as first_login. Group all rows by player_id to ensure each player appears exactly once in the result.

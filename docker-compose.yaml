@@ -16,22 +16,24 @@ services:
       - .:/workspace
     tty: true
     working_dir: /workspace
-  postgres:
-    image: postgres:16-alpine
-    container_name: leetup-postgres
+  mysql:
+    image: mysql:8.0 # the version LeetCode runs
+    container_name: leetup-mysql
+    # LeetCode enables no SQL mode (no ONLY_FULL_GROUP_BY, no strict mode), so neither do we
+    command: ["--sql-mode="]
     environment:
-      POSTGRES_USER: leetup
-      POSTGRES_PASSWORD: leetup
-      POSTGRES_DB: leetup
+      MYSQL_ROOT_PASSWORD: leetup
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - mysql-data:/var/lib/mysql
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "${MYSQL_PORT:-3306}:3306"
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "leetup", "-d", "leetup"]
+      # 127.0.0.1 rather than localhost: the temporary server of the first start listens
+      # on the socket only, so this passes once the real server is up
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-pleetup"]
       interval: 2s
       timeout: 5s
-      retries: 15
+      retries: 30
   leetup:
     build:
       context: .
@@ -42,10 +44,10 @@ services:
       - XDEBUG_CLIENT_HOST=${XDEBUG_CLIENT_HOST:-host.docker.internal}
       - XDEBUG_CLIENT_PORT=${XDEBUG_CLIENT_PORT:-9003}
       - PHP_IDE_SERVER_NAME=${PHP_IDE_SERVER_NAME:-leetup}
-      - POSTGRES_PORT=${POSTGRES_PORT:-5432} # only printed in the connection DSN after setup
+      - MYSQL_PORT=${MYSQL_PORT:-3306} # only printed in the connection DSN after setup
     volumes:
       - .:/workspace
-      - /var/run/docker.sock:/var/run/docker.sock # Map Docker socket for running commands in opencode and postgres containers
+      - /var/run/docker.sock:/var/run/docker.sock # Map Docker socket for running commands in opencode and mysql containers
     ports:
       - "${DELVE_PORT:-40000}:40000"
       - "${NODE_INSPECT_PORT:-9229}:9229"
@@ -56,8 +58,8 @@ services:
     depends_on:
       leetcode-api:
         condition: service_started
-      postgres:
+      mysql:
         condition: service_healthy
 
 volumes:
-  postgres-data:
+  mysql-data:
