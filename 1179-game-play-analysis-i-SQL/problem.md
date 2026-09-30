@@ -56,4 +56,8 @@ The result format is in the following example.
 
 ---
 
-### Environment:PostgreSQL 16
+### Environment:`MySQL 8.0`.
+
+Note: For legacy reason, we didn\'t enable any SQL mode, including
+`ONLY_FULL_GROUP_BY`, `STRICT_TRANS_TABLES`, `NO_ZERO_IN_DATE`,
+`NO_ZERO_DATE`, `ERROR_FOR_DIVISION_BY_ZERO` and more.

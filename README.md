@@ -6,7 +6,7 @@ A streamlined LeetCode practice environment with automatic problem setup and mul
 
 - Fetch LeetCode problems automatically from API
 - Generate problem descriptions, hints, and test scaffolding
-- Support for several programming languages (Go, PHP, JavaScript), plus database problems on PostgreSQL
+- Support for several programming languages (Go, PHP, JavaScript), plus database problems on MySQL
 - Run tests with a single command
 - Debug solutions from the IDE with delve (Go), Xdebug (PHP) and the Node inspector (JavaScript)
 
@@ -155,47 +155,38 @@ The same can be done from the opencode terminal:
 
 ## SQL problems
 
-Database problems run on PostgreSQL 16 (the version LeetCode uses) in the `leetup-postgres` container. There are no tests: you run the query from your IDE or DB client and compare the result with the expected one by eye.
+Database problems run on MySQL 8.0 in the `leetup-mysql` container. That's the version LeetCode uses, and like LeetCode, no SQL mode is enabled. There are no tests: you run the query from your IDE or DB client and compare the result with the expected one by eye.
 
 ```bash
-docker exec leetup setup sql combine-two-tables
+docker exec leetup setup sql game-play-analysis-i
 ```
 
-Setup creates:
-
-- `examples/exampleN.sql`: the tables and rows of each example
-- `solution.sql`: one block per example, see below
-
-It also loads every example into its own schema, `p{id}_example{N}`, and prints how to connect:
+Setup loads LeetCode's schema of the problem (its tables and the rows of the first example) into the database `{id}-{slug}` (cut to 64 characters, the MySQL limit), and prints how to connect:
 
 ```
-⚡ Database: postgresql://leetup:leetup@localhost:5432/leetup
-⚡ JDBC URL: jdbc:postgresql://localhost:5432/leetup?user=leetup&password=leetup
-⚡ Schemas:  p176_example1 p176_example2
+⚡ Database: mysql://root:leetup@localhost:3306/1179-game-play-analysis-i
+⚡ JDBC URL: jdbc:mysql://localhost:3306/1179-game-play-analysis-i?user=root&password=leetup
 ```
 
-The first line is a libpq DSN for `psql` and most clients. JetBrains IDEs are Java-based and only accept JDBC URLs (`jdbc:` prefix), so paste the second one into the data source's URL field. One connection covers every problem and example.
+The first line works with the `mysql` client and most tools. JetBrains IDEs are Java-based and only accept JDBC URLs (`jdbc:` prefix), so paste the second one into the data source's URL field.
 
-Examples share table names, so each block of `solution.sql` switches to its example's schema before the query:
+It also creates `solution.sql`, holding the same connection details, the expected output of the first example and the LeetCode snippet:
 
 ```sql
--- Example 1
--- Expected output:
--- +---------------------+
--- | SecondHighestSalary |
--- +---------------------+
--- | 200                 |
--- +---------------------+
-SET search_path TO p176_example1;
--- Write your PostgreSQL query statement below
+-- Database: mysql://root:leetup@localhost:3306/1179-game-play-analysis-i
+-- JDBC URL: jdbc:mysql://localhost:3306/1179-game-play-analysis-i?user=root&password=leetup
 
--- Example 2
-...
-SET search_path TO p176_example2;
--- Write your PostgreSQL query statement below
+-- Expected output:
+-- +-----------+-------------+
+-- | player_id | first_login |
+-- +-----------+-------------+
+-- | 1         | 2016-03-01  |
+-- ...
+USE `1179-game-play-analysis-i`;
+# Write your MySQL query statement below
 ```
 
-Write the query under each block and run the file, or one block at a time. The data lives in a Docker volume, so it survives `docker-compose down`. Running setup again reloads the examples, which resets the data after an `UPDATE` or `DELETE` solution. `solution.sql` and `examples/` are kept.
+Other examples are left out; they are still in `problem.md`. The data lives in a Docker volume, so it survives `docker-compose down`. Running setup again reloads the database, which resets the data after an `UPDATE` or `DELETE` solution. `solution.sql` is kept.
 
 `check`, `debug` and `installdeps` are not available for SQL problems. `hints` and `review` work as usual.
 
@@ -212,7 +203,7 @@ Anything that varies from one machine to another lives in `.env`, never in the i
 | `LEETCODE_API_PORT` | `3000` | Host port the problem API is published on |
 | `DELVE_PORT` | `40000` | Host port the Go debugger is published on |
 | `NODE_INSPECT_PORT` | `9229` | Host port the JavaScript debugger is published on |
-| `POSTGRES_PORT` | `5432` | Host port PostgreSQL is published on, for SQL problems |
+| `MYSQL_PORT` | `3306` | Host port MySQL is published on, for SQL problems |
 | `XDEBUG_CLIENT_HOST` | `host.docker.internal` | Where Xdebug reaches the IDE from inside the container |
 | `XDEBUG_CLIENT_PORT` | `9003` | Port the IDE listens for Xdebug on |
 | `PHP_IDE_SERVER_NAME` | `leetup` | IDE server entry holding the `/workspace` path mapping |
