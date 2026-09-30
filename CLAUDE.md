@@ -1,14 +1,15 @@
 # leetup
 
-LeetCode practice environment with solutions in Go, PHP and JavaScript. Everything runs inside the `leetup` Docker container; see README.md.
+LeetCode practice environment with solutions in Go, PHP, JavaScript and SQL (PostgreSQL). Everything runs inside the `leetup` Docker container; see README.md.
 
 ## Structure
 
-Each problem lives in its own directory: `{id}-{problem-slug}-{LANG}/` (`LANG` is `GO`, `PHP` or `JS`)
+Each problem lives in its own directory: `{id}-{problem-slug}-{LANG}/` (`LANG` is `GO`, `PHP`, `JS` or `SQL`)
 - `problem.md`, `hints/` — fetched from LeetCode by `setup`
 - `solution.go` (`package main`), `solution.php` (`class Solution`) or `solution.js` (CommonJS, ends with `module.exports`) — implementation
 - `solution_test.go` / `solution_test.php` / `solution_test.js` (`node:test`) — table-based tests, one case per example
 - `scripts/` — generated from `setup/<lang>/*.sh.tmpl`; don't edit by hand, change the template
+- SQL: `solution.sql` (per example: expected output as a comment, `SET search_path`, the snippet) and `examples/exampleN.sql`; setup loads each example into schema `p{id}_example{N}` of the `leetup-postgres` container. No tests, no `scripts/`, so `check`, `debug` and `installdeps` refuse `-SQL` dirs
 - Go: own `go.mod`, no root module. PHP: own `composer.json` and `vendor`; PHPUnit is shared under `deps/php`. JS: own `package.json` and `node_modules`; tests use the built-in runner, no packages
 
 ## Commands
@@ -24,4 +25,4 @@ docker exec leetup debug 1-two-sum-GO          # debug session for the IDE
 
 - Work on the `solutions` branch
 - Add new problems with `setup`, not by hand
-- Each solution must have a corresponding `solution_test.<lang>`
+- Each solution must have a corresponding `solution_test.<lang>`, except SQL ones

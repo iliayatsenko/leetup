@@ -7,6 +7,7 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     echo "  $0 go two-sum"
     echo "  $0 php https://leetcode.com/problems/two-sum/"
     echo "  $0 js two-sum"
+    echo "  $0 sql combine-two-tables"
     exit 1
 fi
 
@@ -51,6 +52,7 @@ fi
 case "$LANGUAGE" in
     go) LANG_SLUG="golang" ;;
     js) LANG_SLUG="javascript" ;;
+    sql) LANG_SLUG="postgresql" ;;
     *) LANG_SLUG="$LANGUAGE" ;;
 esac
 if ! echo "$RESPONSE" | jq -e --arg slug "$LANG_SLUG" '.question.codeSnippets // [] | any(.langSlug == $slug)' > /dev/null; then
@@ -116,8 +118,11 @@ fi
 # Source language-specific setup
 source "../$LANG_SETUP_FILE"
 
-# Generate the tests file, if not exists
-if compgen -G "solution_test.*" > /dev/null; then
+# Generate the tests file, if not exists. SQL solutions have no tests, they are
+# compared by hand with the expected outputs written into solution.sql
+if [ "$LANGUAGE" = "sql" ]; then
+    :
+elif compgen -G "solution_test.*" > /dev/null; then
     echo "⚡ Test file already present, skipping test generation"
 else
     # The credentials live in the opencode container (loaded from .env), so look them up there
