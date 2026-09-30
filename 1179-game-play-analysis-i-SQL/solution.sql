@@ -1,0 +1,11 @@
+-- Example 1
+-- Expected output:
+-- +-----------+-------------+
+-- | player_id | first_login |
+-- +-----------+-------------+
+-- | 1         | 2016-03-01  |
+-- | 2         | 2017-06-25  |
+-- | 3         | 2016-03-02  |
+-- +-----------+-------------+
+SET search_path TO p1179_example1;
+-- Write your PostgreSQL query statement below
