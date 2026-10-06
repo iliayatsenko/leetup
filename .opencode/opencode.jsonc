@@ -8,8 +8,7 @@
     }
   },
   "model": "{env:OPENCODE_MODEL_ID}",
-  // Commands can't carry their own permissions, so this one policy covers all of them:
-  // no shell, and edits only to the files the test and hint skills write
+  // Disable bash and editing all files except hints and tests
   "permission": {
     "question": "deny",
     "bash": "deny",

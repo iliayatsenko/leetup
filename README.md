@@ -44,15 +44,15 @@ Setup also generates `solution_test.<lang>` from the problem's examples, unless 
 
 ### 4. Regenerate unit tests (optional)
 
-To regenerate the tests, delete `solution_test.<lang>` and run in the opencode terminal:
+To regenerate the tests, delete `solution_test.<lang>` and run from the project root:
 
-```
-/leetup-tests <problem-directory>
+```bash
+docker exec --env-file .env opencode opencode run --command leetup-tests <problem-directory>
 ```
 
 Example:
-```
-/leetup-tests 1-two-sum-GO
+```bash
+docker exec --env-file .env opencode opencode run --command leetup-tests 1-two-sum-GO
 ```
 
 ### 5. Implement your solution in the `solution.<lang>` file
@@ -128,12 +128,6 @@ Example:
 docker exec leetup hints 3-longest-substring-without-repeating-characters-GO
 ```
 
-The same can be done from the opencode terminal:
-
-```
-/leetup-hints <problem-directory>
-```
-
 ### 10. Review your solution
 
 Get detailed feedback on your completed solution including complexity analysis and optimization suggestions:
@@ -145,12 +139,6 @@ docker exec leetup review <problem-directory>
 Example:
 ```bash
 docker exec leetup review 1-two-sum-GO
-```
-
-The same can be done from the opencode terminal:
-
-```
-/leetup-review <problem-directory>
 ```
 
 ## SQL problems
@@ -207,7 +195,7 @@ Anything that varies from one machine to another lives in `.env`, never in the i
 | `XDEBUG_CLIENT_PORT` | `9003` | Port the IDE listens for Xdebug on |
 | `PHP_IDE_SERVER_NAME` | `leetup` | IDE server entry holding the `/workspace` path mapping |
 
-The ports above are host-side only; the container-side ports are fixed, so changing one does not ripple into the scripts. The Xdebug settings are written by `entrypoint.sh` on container start rather than baked into the image, so changing them needs no rebuild. Run `docker-compose up -d` after editing `.env`: the container environment is fixed at creation time, so compose has to recreate the container for a new value to land (`docker-compose restart` would keep the old one).
+The ports above are host-side only; the container-side ports are fixed, so changing one does not ripple into the scripts. The Xdebug settings are written by `entrypoint.sh` on container start rather than baked into the image, so changing them needs no rebuild. The opencode values are passed to the `opencode` container on each call, so an edit applies on the next run. For everything else, run `docker-compose up -d` after editing `.env`: the container environment is fixed at creation time, so compose has to recreate the container for a new value to land (`docker-compose restart` would keep the old one).
 
 On plain Linux, `host.docker.internal` does not resolve by default. Either add
 

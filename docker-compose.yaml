@@ -9,12 +9,11 @@ services:
     image: ghcr.io/anomalyco/opencode:latest
     platform: linux/amd64
     container_name: opencode
-    env_file: .env
+    entrypoint: ["sleep", "infinity"]
     environment:
       OPENCODE_CONFIG: /workspace/.opencode/opencode.jsonc
     volumes:
       - .:/workspace
-    tty: true
     working_dir: /workspace
   mysql:
     image: mysql:8.0 # the version LeetCode runs
