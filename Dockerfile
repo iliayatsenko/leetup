@@ -41,4 +41,4 @@ WORKDIR /workspace
 ENTRYPOINT ["/bin/bash", "/workspace/entrypoint.sh"]
 
 # Keep container running.
-CMD ["tail", "-f", "/dev/null"]
+CMD ["sleep", "infinity"]

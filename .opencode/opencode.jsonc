@@ -8,27 +8,14 @@
     }
   },
   "model": "{env:OPENCODE_MODEL_ID}",
-  "small_model": "{env:OPENCODE_SMALL_MODEL_ID}",
+  // Disable bash and editing all files except hints and tests
   "permission": {
-    "question": "deny"
-  },
-  "agent": {
-    "leetup-test-generator": {
-      "model": "{env:OPENCODE_SMALL_MODEL_ID}",
-      "permission": {
-        "bash": "deny"
-      }
-    },
-    "leetup-reviewer": {
-      "permission": {
-        "edit": "deny",
-        "bash": "deny"
-      }
-    },
-    "leetup-hint-generator": {
-      "permission": {
-        "bash": "deny"
-      }
+    "question": "deny",
+    "bash": "deny",
+    "edit": {
+      "*": "deny",
+      "*/solution_test.*": "allow",
+      "*/hints/hint*.md": "allow"
     }
   }
 }

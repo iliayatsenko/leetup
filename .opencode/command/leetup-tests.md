@@ -1,6 +1,5 @@
 ---
 description: Generate unit tests for a LeetCode problem
-agent: leetup-test-generator
 ---
 
-Generate unit tests for LeetCode problem in $ARGUMENTS.
+Use the leetup-test-generator skill to generate unit tests for the LeetCode problem in $ARGUMENTS.
