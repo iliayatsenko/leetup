@@ -3,13 +3,13 @@
   // Copy to opencode.jsonc and fill in your provider, API key and model.
   // See https://models.dev/ for available providers and models
   "provider": {
-    "anthropic": {
+    "openrouter": {
       "options": {
-        "apiKey": ""
+        "apiKey": "<PUT YOUR OPENROUTER API KEY HERE>"
       }
     }
   },
-  "model": "anthropic/claude-sonnet-4-5",
+  "model": "<PUT MODEL ID HERE>",
   // Disable bash and editing all files except hints and tests
   "permission": {
     "question": "deny",
