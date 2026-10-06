@@ -1,13 +1,15 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  // Copy to opencode.jsonc and fill in your provider, API key and model.
+  // See https://models.dev/ for available providers and models
   "provider": {
-    "{env:OPENCODE_PROVIDER_ID}": {
+    "anthropic": {
       "options": {
-        "apiKey": "{env:OPENCODE_API_KEY}"
+        "apiKey": ""
       }
     }
   },
-  "model": "{env:OPENCODE_MODEL_ID}",
+  "model": "anthropic/claude-sonnet-4-5",
   // Disable bash and editing all files except hints and tests
   "permission": {
     "question": "deny",
