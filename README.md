@@ -198,7 +198,6 @@ Anything that varies from one machine to another lives in `.env`, never in the i
 | --- | --- | --- |
 | `OPENCODE_PROVIDER_ID` | — | Agent provider, see [models.dev](https://models.dev/) |
 | `OPENCODE_MODEL_ID` | — | Model the agents run on |
-| `OPENCODE_SMALL_MODEL_ID` | — | Cheaper model, used for test generation |
 | `OPENCODE_API_KEY` | — | Provider credentials |
 | `LEETCODE_API_PORT` | `3000` | Host port the problem API is published on |
 | `DELVE_PORT` | `40000` | Host port the Go debugger is published on |

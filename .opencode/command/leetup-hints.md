@@ -1,6 +1,5 @@
 ---
 description: Generate hints for a LeetCode problem
-agent: leetup-hint-generator
 ---
 
-Generate hints for LeetCode problem in $ARGUMENTS.
+Use the leetup-hint-generator skill to generate hints for the LeetCode problem in $ARGUMENTS.

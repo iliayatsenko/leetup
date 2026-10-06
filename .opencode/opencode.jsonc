@@ -8,27 +8,15 @@
     }
   },
   "model": "{env:OPENCODE_MODEL_ID}",
-  "small_model": "{env:OPENCODE_SMALL_MODEL_ID}",
+  // Commands can't carry their own permissions, so this one policy covers all of them:
+  // no shell, and edits only to the files the test and hint skills write
   "permission": {
-    "question": "deny"
-  },
-  "agent": {
-    "leetup-test-generator": {
-      "model": "{env:OPENCODE_SMALL_MODEL_ID}",
-      "permission": {
-        "bash": "deny"
-      }
-    },
-    "leetup-reviewer": {
-      "permission": {
-        "edit": "deny",
-        "bash": "deny"
-      }
-    },
-    "leetup-hint-generator": {
-      "permission": {
-        "bash": "deny"
-      }
+    "question": "deny",
+    "bash": "deny",
+    "edit": {
+      "*": "deny",
+      "*/solution_test.*": "allow",
+      "*/hints/hint*.md": "allow"
     }
   }
 }

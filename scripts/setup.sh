@@ -127,7 +127,7 @@ elif compgen -G "solution_test.*" > /dev/null; then
 else
     # The credentials live in the opencode container (loaded from .env), so look them up there
     MISSING_VARS=()
-    for var in OPENCODE_PROVIDER_ID OPENCODE_SMALL_MODEL_ID OPENCODE_API_KEY; do
+    for var in OPENCODE_PROVIDER_ID OPENCODE_MODEL_ID OPENCODE_API_KEY; do
         if [ -z "$(docker exec opencode printenv "$var")" ]; then
             MISSING_VARS+=("$var")
         fi
