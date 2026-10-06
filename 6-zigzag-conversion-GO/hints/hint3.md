@@ -1,0 +1,1 @@
+The key insight is recognizing the direction change: you move down through rows 0, 1, 2, ..., numRows-1, then reverse direction and move up through numRows-2, numRows-3, ..., 1, then down again. Track both the current row index and whether you're moving down or up.

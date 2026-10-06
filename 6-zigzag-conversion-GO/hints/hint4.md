@@ -1,0 +1,1 @@
+Handle edge cases carefully: when numRows is 1, the zigzag is just the original string (no actual zigzag happens). Also, when you reach row 0 while going up, switch to going down; when you reach row numRows-1 while going down, switch to going up.

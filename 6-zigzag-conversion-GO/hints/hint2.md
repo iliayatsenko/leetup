@@ -1,0 +1,1 @@
+Consider using an array or slice of strings (or string builders), one for each row. As you iterate through the input string, append each character to the appropriate row's string based on your current position in the zigzag pattern.

@@ -1,0 +1,1 @@
+Time complexity is O(n) where n is the length of the input string, since you visit each character exactly once. Space complexity is O(n) for storing the characters in the row strings. No additional optimization is needed beyond the simulation approach for this problem.
