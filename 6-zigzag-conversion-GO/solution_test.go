@@ -4,10 +4,10 @@ import "testing"
 
 func TestConvert(t *testing.T) {
 	tests := []struct {
-		name   string
-		s      string
+		name    string
+		s       string
 		numRows int
-		want   string
+		want    string
 	}{
 		{
 			name:    "Example 1",
@@ -26,6 +26,12 @@ func TestConvert(t *testing.T) {
 			s:       "A",
 			numRows: 1,
 			want:    "A",
+		},
+		{
+			name:    "Example 4",
+			s:       "AB",
+			numRows: 1,
+			want:    "AB",
 		},
 	}
 

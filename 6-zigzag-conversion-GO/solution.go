@@ -1,6 +1,10 @@
 package main
 
 func convert(s string, numRows int) string {
+	if numRows == 1 {
+		return s
+	}
+
 	zigzag := make([][]byte, numRows)
 	for rowIdx := range zigzag {
 		zigzag[rowIdx] = make([]byte, len(s))
