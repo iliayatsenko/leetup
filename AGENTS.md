@@ -26,4 +26,4 @@ docker exec leetup debug 1-two-sum-GO          # debug session for the IDE
 - Work on the `solutions` branch
 - Add new problems with `setup`, not by hand
 - Each solution must have a corresponding `solution_test.<lang>`, except SQL ones
-- AI skills (tests, hints, review, adding a language) live in `.agents/skills/<name>/SKILL.md`. `.claude/skills` is a symlink to it, and `.opencode/opencode.jsonc` loads the same files as agent prompts, so edit only the `SKILL.md`
+- AI skills (tests, hints, review, adding a language) live in `.agents/skills/<name>/SKILL.md`. `.claude/skills` is a symlink to it, and `.opencode/command/` loads the same files as agent prompts (provider config lives in the gitignored `opencode.jsonc`, copied from `opencode.jsonc.dist`; run agents through `.opencode/run-command-if-configured.sh` in the opencode container), so edit only the `SKILL.md`

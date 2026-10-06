@@ -10,8 +10,6 @@ services:
     platform: linux/amd64
     container_name: opencode
     entrypoint: ["sleep", "infinity"]
-    environment:
-      OPENCODE_CONFIG: /workspace/.opencode/opencode.jsonc
     volumes:
       - .:/workspace
     working_dir: /workspace

@@ -16,9 +16,12 @@ A streamlined LeetCode practice environment with automatic problem setup and mul
 
 ```bash
 cp .env.dist .env
+cp opencode.jsonc.dist opencode.jsonc
 ```
 
-Fill in the opencode provider, model and API key. Everything else in `.env` is optional — the published ports, the Xdebug target and the IDE identifiers all have defaults, so uncomment them only where this machine differs. See [Configuration](#configuration) for what each one does.
+Fill in the provider, API key and model in `opencode.jsonc`. It is gitignored. Without it, the AI agents (tests, hints, review) are skipped with a message.
+
+Everything in `.env` is optional — the published ports, the Xdebug target and the IDE identifiers all have defaults, so uncomment them only where this machine differs. See [Configuration](#configuration) for what each one does.
 
 ### 2. Start the environment
 
@@ -47,12 +50,12 @@ Setup also generates `solution_test.<lang>` from the problem's examples, unless 
 To regenerate the tests, delete `solution_test.<lang>` and run from the project root:
 
 ```bash
-docker exec --env-file .env opencode opencode run --command leetup-tests <problem-directory>
+docker exec opencode /workspace/.opencode/run-command-if-configured.sh leetup-tests <problem-directory>
 ```
 
 Example:
 ```bash
-docker exec --env-file .env opencode opencode run --command leetup-tests 1-two-sum-GO
+docker exec opencode /workspace/.opencode/run-command-if-configured.sh leetup-tests 1-two-sum-GO
 ```
 
 ### 5. Implement your solution in the `solution.<lang>` file
@@ -184,9 +187,6 @@ Anything that varies from one machine to another lives in `.env`, never in the i
 
 | Variable | Default | What it is for |
 | --- | --- | --- |
-| `OPENCODE_PROVIDER_ID` | — | Agent provider, see [models.dev](https://models.dev/) |
-| `OPENCODE_MODEL_ID` | — | Model the agents run on |
-| `OPENCODE_API_KEY` | — | Provider credentials |
 | `LEETCODE_API_PORT` | `3000` | Host port the problem API is published on |
 | `DELVE_PORT` | `40000` | Host port the Go debugger is published on |
 | `NODE_INSPECT_PORT` | `9229` | Host port the JavaScript debugger is published on |
@@ -195,7 +195,7 @@ Anything that varies from one machine to another lives in `.env`, never in the i
 | `XDEBUG_CLIENT_PORT` | `9003` | Port the IDE listens for Xdebug on |
 | `PHP_IDE_SERVER_NAME` | `leetup` | IDE server entry holding the `/workspace` path mapping |
 
-The ports above are host-side only; the container-side ports are fixed, so changing one does not ripple into the scripts. The Xdebug settings are written by `entrypoint.sh` on container start rather than baked into the image, so changing them needs no rebuild. The opencode values are passed to the `opencode` container on each call, so an edit applies on the next run. For everything else, run `docker-compose up -d` after editing `.env`: the container environment is fixed at creation time, so compose has to recreate the container for a new value to land (`docker-compose restart` would keep the old one).
+The ports above are host-side only; the container-side ports are fixed, so changing one does not ripple into the scripts. The Xdebug settings are written by `entrypoint.sh` on container start rather than baked into the image, so changing them needs no rebuild. For everything else, run `docker-compose up -d` after editing `.env`: the container environment is fixed at creation time, so compose has to recreate the container for a new value to land (`docker-compose restart` would keep the old one).
 
 On plain Linux, `host.docker.internal` does not resolve by default. Either add
 
