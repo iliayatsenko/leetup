@@ -29,8 +29,7 @@ if [ ! -f solution.php ]; then
     echo "$RESPONSE" | jq -r '.question.codeSnippets[] | select(.langSlug=="php") | .code' >> solution.php
 fi
 
-# Create the script running the tests, along with the installdeps.sh, check.sh and
-# debug.sh entry points
+# Create the installdeps.sh, check.sh and debug.sh entry points
 render_scripts "$TEMPLATE_DIR"
 
 # Install the shared test tooling if missing and this problem's own dependencies,
