@@ -7,6 +7,7 @@
 #   - PROBLEM_SLUG: The problem slug
 # Expected functions:
 #   - cleanup_text: Clean up text fetched from LeetCode API
+#   - html_to_markdown: Convert HTML fetched from LeetCode API to Markdown
 #   - render_template: Write a template to stdout, expanding placeholders
 #   - render_scripts: Render every script template of a language into the problem directory
 
@@ -15,7 +16,7 @@ TEMPLATE_DIR=$(dirname "${BASH_SOURCE[0]}")
 
 # Append environment details to problem description
 printf "\n\n---\n\n### Environment:" >> problem.md
-echo "$RESPONSE" | jq -r '.question.envInfo' | jq -r '.javascript.[1]' | cleanup_text | pandoc -f html -t markdown >> problem.md
+echo "$RESPONSE" | jq -r '.question.envInfo' | jq -r '.javascript.[1]' | cleanup_text | html_to_markdown >> problem.md
 
 # Create package.json file
 if [ ! -f package.json ]; then
