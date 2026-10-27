@@ -84,6 +84,14 @@ cleanup_text() {
     sed 's/\\n/ /g;s/\\r/ /g;s/\\t/ /g;s/\&nbsp;/ /g'
 }
 
+# Function to convert HTML fetched from LeetCode API to Markdown. Attributes are
+# dropped, so links don't end with {target="_blank"} and keywords aren't wrapped
+# in [...]{keyword="..."}. Raw HTML and native spans are off too, otherwise pandoc
+# keeps such links and keywords as <a> and <span> tags
+html_to_markdown() {
+    pandoc -f html -t markdown-link_attributes-bracketed_spans-native_spans-raw_html
+}
+
 # Function to write a template to stdout, expanding placeholders. Host-specific
 # values are deliberately not expanded here: the generated scripts are committed,
 # so they read them from the environment at run time instead
@@ -103,7 +111,7 @@ render_scripts() {
 }
 
 # Extract, format and write problem description
-echo "$RESPONSE" | jq -r '.question.content' | cleanup_text | pandoc -f html -t markdown >> problem.md
+echo "$RESPONSE" | jq -r '.question.content' | cleanup_text | html_to_markdown >> problem.md
 
 # Extract, format and write hints if available
 HINTS_COUNT=$(echo "$RESPONSE" | jq -r '.question.hints | length')
@@ -111,7 +119,7 @@ if [ "$HINTS_COUNT" -gt 0 ]; then
     mkdir -p hints
     # Index the hints instead of reading line by line, so multiline hints stay in one file
     for ((i = 0; i < HINTS_COUNT; i++)); do
-        echo "$RESPONSE" | jq -r ".question.hints[$i]" | cleanup_text | pandoc -f html -t markdown > "hints/hint$((i + 1)).md"
+        echo "$RESPONSE" | jq -r ".question.hints[$i]" | cleanup_text | html_to_markdown > "hints/hint$((i + 1)).md"
     done
 fi
 

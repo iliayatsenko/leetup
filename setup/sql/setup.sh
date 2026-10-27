@@ -8,6 +8,7 @@
 #   - PROBLEM_SLUG: The problem slug
 # Expected functions:
 #   - cleanup_text: Clean up text fetched from LeetCode API
+#   - html_to_markdown: Convert HTML fetched from LeetCode API to Markdown
 #
 # SQL problems have no tests and no scripts: the first example is loaded into a
 # database in the mysql container, and the solution is run from a DB client by hand
@@ -24,7 +25,7 @@ JDBC_URL="jdbc:mysql://localhost:${MYSQL_PORT:-3306}/$DATABASE?user=root&passwor
 
 # Append environment details to problem description
 printf "\n\n---\n\n### Environment:" >> problem.md
-echo "$RESPONSE" | jq -r '.question.envInfo' | jq -r '.mysql.[1]' | cleanup_text | pandoc -f html -t markdown >> problem.md
+echo "$RESPONSE" | jq -r '.question.envInfo' | jq -r '.mysql.[1]' | cleanup_text | html_to_markdown >> problem.md
 
 # Function to run the SQL from stdin in the mysql container. It goes through the
 # Docker socket, so the leetup container needs neither a mysql client nor a

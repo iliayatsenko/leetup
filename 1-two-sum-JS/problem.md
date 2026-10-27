@@ -53,13 +53,13 @@ You can return the answer in any order.
 ### Environment:`Node.js 22.14.0`.
 
 Your code is run with `--harmony` flag, enabling [new ES6
-features](http://node.green/){target="_blank"}.
+features](http://node.green/).
 
-[lodash.js@4.17.21](https://lodash.com){target="_blank"} library is
+[lodash.js@4.17.21](https://lodash.com) library is
 included by default.
 
 You may use data structures from
-[datastructures-js](https://datastructures-js.info/docs){target="_blank"}
+[datastructures-js](https://datastructures-js.info/docs)
 library. Version info:
 
     "@datastructures-js/binary-search-tree": "5.4.0"
