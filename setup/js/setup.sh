@@ -38,6 +38,5 @@ if [ ! -f solution.js ]; then
     fi
 fi
 
-# Create the scripts running and debugging the tests, along with the installdeps.sh,
-# check.sh and debug.sh entry points
+# Create the installdeps.sh, check.sh and debug.sh entry points
 render_scripts "$TEMPLATE_DIR"
