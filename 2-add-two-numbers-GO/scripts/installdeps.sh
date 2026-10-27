@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Entry point for installing the dependencies declared by the solution
+
 # Fail on errors and unset variables, and print each command before running it
 set -eux
 

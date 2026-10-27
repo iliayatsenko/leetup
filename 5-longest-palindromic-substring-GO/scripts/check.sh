@@ -8,4 +8,5 @@ set -eux
 # Run from the problem directory, not from the scripts one
 cd "$(dirname "$0")/.."
 
-./scripts/_run-tests.sh
+# Run Go tests with verbose output
+go test -v ./...

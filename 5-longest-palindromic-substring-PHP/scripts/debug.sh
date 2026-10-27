@@ -13,4 +13,4 @@ set -eux
 # Run from the problem directory, not from the scripts one
 cd "$(dirname "$0")/.."
 
-XDEBUG_MODE=debug PHP_IDE_CONFIG="serverName=${PHP_IDE_SERVER_NAME:-leetup}" ./scripts/_run-tests.sh
+XDEBUG_MODE=debug PHP_IDE_CONFIG="serverName=${PHP_IDE_SERVER_NAME:-leetup}" ./scripts/check.sh

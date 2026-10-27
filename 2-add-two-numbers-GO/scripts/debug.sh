@@ -3,10 +3,13 @@
 # Entry point for debugging the solution. See how to connect to IDE:
 #  - GoLand - https://www.jetbrains.com/help/go/attach-to-running-go-processes-with-debugger.html#step-2-create-the-go-remote-run-debug-configuration
 #  - VSCode - https://github.com/golang/vscode-go/wiki/debugging#connect-to-headless-delve-with-target-specified-at-server-start-up
+
 # Fail on errors and unset variables, and print each command before running it
 set -eux
 
 # Run from the problem directory, not from the scripts one
 cd "$(dirname "$0")/.."
 
-./scripts/_run-debug.sh
+# Run headless delve session with go tests. The port is the container-side one,
+# fixed; the host port it is published on is DELVE_PORT in .env
+dlv test . --listen=:40000 --headless=true --api-version=2
