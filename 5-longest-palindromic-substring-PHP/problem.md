@@ -18,8 +18,8 @@
 ---
 
 Given a string `s`, return *the longest*
-[*palindromic*]{keyword="palindromic-string"}
-[*substring*]{keyword="substring-nonempty"} in `s`.
+*palindromic*
+*substring* in `s`.
 
 **Example 1:**
 

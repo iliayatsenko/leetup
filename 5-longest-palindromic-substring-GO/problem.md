@@ -18,8 +18,8 @@
 ---
 
 Given a string `s`, return *the longest*
-[*palindromic*]{keyword="palindromic-string"}
-[*substring*]{keyword="substring-nonempty"} in `s`.
+*palindromic*
+*substring* in `s`.
 
 **Example 1:**
 
@@ -43,7 +43,7 @@ Given a string `s`, return *the longest*
 ### Environment:`Go 1.23`
 
 Support
-[https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1](https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1){target="_blank"}
+[https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1](https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1)
 and
-[https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha](https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha){target="_blank"}
+[https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha](https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha)
 library.

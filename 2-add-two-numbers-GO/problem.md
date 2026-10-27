@@ -25,7 +25,7 @@ the number 0 itself.
 
 **Example 1:**
 
-![](https://assets.leetcode.com/uploads/2020/10/02/addtwonumber1.jpg){style="width: 483px; height: 342px;"}
+![](https://assets.leetcode.com/uploads/2020/10/02/addtwonumber1.jpg)
 
 
     Input: l1 = [2,4,3], l2 = [5,6,4]
@@ -57,7 +57,7 @@ the number 0 itself.
 ### Environment:`Go 1.23`
 
 Support
-[https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1](https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1){target="_blank"}
+[https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1](https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1)
 and
-[https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha](https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha){target="_blank"}
+[https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha](https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha)
 library.

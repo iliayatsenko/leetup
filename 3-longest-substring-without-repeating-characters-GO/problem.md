@@ -16,7 +16,7 @@
 ---
 
 Given a string `s`, find the length of the **longest**
-[**substring**]{keyword="substring-nonempty"} without duplicate
+**substring** without duplicate
 characters.
 
 **Example 1:**
@@ -49,7 +49,7 @@ characters.
 ### Environment:`Go 1.23`
 
 Support
-[https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1](https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1){target="_blank"}
+[https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1](https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1)
 and
-[https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha](https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha){target="_blank"}
+[https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha](https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha)
 library.
